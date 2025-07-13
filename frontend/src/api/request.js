@@ -1,5 +1,8 @@
 
+// import axios,{AxiosRequestConfig,AxiosResponse} from 'axios'
+// import type {ApiResponse} from '@/api/types/index.js'
 import axios from 'axios'
+import { authUtils } from '@/utils/auth.ts'
 
 export const request = axios.create({
   baseURL: 'http://localhost:7001',
@@ -12,7 +15,12 @@ export const request = axios.create({
 
 // 请求拦截器
 request.interceptors.request.use(
-  config => {
+  (config) => {
+    // 自动添加 token 到请求头
+    const token = authUtils.getToken()
+    if (token){
+      config.headers.Authorization = `Bearer ${token}`
+    }
     return config
   },
   error => {
