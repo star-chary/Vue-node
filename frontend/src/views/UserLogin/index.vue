@@ -1,29 +1,47 @@
-<script setup>
-import { userLogin } from '@/views/UserLogin/userLogin.ts'
+<script setup lang="ts">
+import UserLogin from '@/views/UserLogin/components/UserLogin.vue'
+import UserRegister from '@/views/UserLogin/components/UserRegister.vue'
+import { userLogin } from '@/views/UserLogin/composables/userLogin'
 
-const { handleLogin ,loginForm} = userLogin()
+const { loginForm, handleLogin, handleRegister, loginOrRegister, loginOrRegisterFn } = userLogin()
+
+const onLogin = (loginData: any) => {
+  handleLogin(loginData)
+}
+
+// 注册
+const onRegister = (data: any) => {
+  handleRegister(data)
+}
+
+// 切换登录或注册
+const handleSwitch = (data:string) => {
+  loginOrRegisterFn(data)
+}
 </script>
 
 <template>
   <div class="login-page">
     <div class="login-container">
-      <div class="login-content">
-        <h1 class="login-title">欢迎登录</h1>
-        <el-form :model="loginForm" label-width="auto">
-          <el-form-item label-position="right" label="账号">
-            <el-input v-no-space v-model="loginForm.username" placeholder="请输入用户名" />
-          </el-form-item>
-          <el-form-item label-position="right" label="密码" >
-            <el-input v-no-space type="password" v-model="loginForm.password" placeholder="请输入密码" />
-          </el-form-item>
-        </el-form>
-        <el-button style="width: 100%" type="primary" @click="handleLogin">登录</el-button>
+      <div style="display: flex; flex-direction: column">
+        <UserLogin
+          v-if="loginOrRegister === 'login'"
+          :login-form="loginForm"
+          @handle-login="onLogin"
+          @on-switch="handleSwitch"
+          class="login-content login-title"
+        ></UserLogin>
+        <UserRegister
+          @on-switch="handleSwitch"
+          @handle-register="onRegister"
+          :login-form="loginForm"
+          v-else class="login-content login-title"></UserRegister>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .login-page {
   width: 100vw;
   height: 100vh;
@@ -50,7 +68,6 @@ const { handleLogin ,loginForm} = userLogin()
   max-width: 400px;
   min-width: 300px;
 }
-
 .login-title {
   text-align: center;
   margin-bottom: 2rem;

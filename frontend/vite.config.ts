@@ -14,18 +14,25 @@ export default defineConfig({
     vueDevTools(),
     AutoImport({
       resolvers: [ElementPlusResolver()],
-      imports: ['vue', 'vue-router', '@vueuse/core','pinia'],
+      imports: ['vue', 'vue-router', '@vueuse/core', 'pinia'],
       // 生成类型定义文件
-      dst:true,
+      dst: true,
     }),
     Components({
       resolvers: [ElementPlusResolver()],
       dts: true,
     }),
   ],
+  // ,css:{
+  //   preprocessorOptions: {
+  //     scss: {
+  //       additionalData: `@import "@/assets/styles/mixins.scss";`
+  //     }
+  //   }
+  // },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
 })

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import {setupRouterGuards} from '@/router/guards.ts'
 // login
 import { loginRoutes } from '@/router/login/index.js'
 
@@ -8,6 +9,7 @@ const router = createRouter({
     {
       path: '/mainlayout',
       component: () => import('@/views/MainLayout.vue'),
+      redirect:'/item1-1',
       children: [
         {
           path: '/item1-1',
@@ -22,5 +24,8 @@ const router = createRouter({
     ...loginRoutes,
   ],
 })
+
+// 设置路由守卫
+setupRouterGuards(router)
 
 export default router
