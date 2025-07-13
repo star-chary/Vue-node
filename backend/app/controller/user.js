@@ -3,13 +3,25 @@ const Controller = require('egg').Controller;
 
 // 创建一个继承自 Egg.controller 的自定义控制器
 class UserController extends Controller {
+
   // 自定义一个名为 reginster 的方法
   async register() {
     const { ctx } = this;
     const { username, password } = ctx.request.body;
-    await ctx.service.user.register(username, password);
-    // 设置响应内容，将用户名和密码作为 JSON 返回
-    ctx.body = { username, password };
+
+    try {
+      await ctx.service.user.register(username, password);
+      // 设置响应内容，将用户名和密码作为 JSON 返回
+      ctx.body = { username, password };
+    } catch (e) {
+      if (e.status === 409) {
+        ctx.status = 409;
+        ctx.body = {
+          status: 'fail',
+          message: '用户名已存在',
+        };
+      }
+    }
   }
 
   async login() {
@@ -21,9 +33,17 @@ class UserController extends Controller {
         this.config.jwt.secret, {
           expiresIn: 3600,
         });
-      ctx.body = { status: 'success', token };
+      ctx.status = 200;
+      ctx.body = {
+        msg: '登录成功',
+        code: 200,
+        data: {
+          token,
+        },
+      };
     } else {
-      ctx.body = { status: 'fail' };
+      ctx.status = 401;
+      ctx.body = { code: 401, msg: '用户名或密码错误', data: null };
     }
   }
 }
