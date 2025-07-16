@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import {setupRouterGuards} from '@/router/guards.ts'
+import { setupRouterGuards } from '@/router/guards.ts'
 // login
 import { loginRoutes } from '@/router/login/index.js'
 
@@ -9,15 +9,27 @@ const router = createRouter({
     {
       path: '/mainlayout',
       component: () => import('@/views/MainLayout.vue'),
-      redirect:'/item1-1',
+      redirect: '/mainlayout/createTopic',
       children: [
         {
-          path: '/item1-1',
-          component: import('@/views/Item1-1.vue'),
+          path: 'createTopic',
+          name: 'createTopic',
+          component: () => import('@/views/CreateTopic.vue'),
         },
         {
-          path: '/item2-1',
-          component: import('@/views/Item2-1.vue'),
+          path: 'topicList',
+          name: 'topicList',
+          component: () => import('@/views/TopicList.vue'),
+        },
+        {
+          path: 'topicDetail/:id?',
+          name: 'topicDetail',
+          component: () => import('@/views/TopicDetail.vue'),
+        },
+        {
+          path: 'logout',
+          name: 'logout',
+          component: () => import('@/views/Logout.vue'),
         },
       ],
     },

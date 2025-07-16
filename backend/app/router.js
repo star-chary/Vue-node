@@ -17,9 +17,19 @@ module.exports = app => {
   } = app;
   * */
   const { router, controller } = app;
+  const jwt = app.middleware.jwt(app.config.jwt);
   router.get('/', controller.home.index);
   // 注册
   router.post('/register', controller.user.register);
   // 登录
   router.post('/login', controller.user.login);
+  // 新建主题
+  router.post('/topic', jwt, controller.topic.create);
+  // 主题列表
+  router.get('/list', jwt, controller.topic.getList);
+  // 主题详情
+  router.get('/list/:id', jwt, controller.topic.getDetail);
+  // 删除主题
+  router.post('/del', jwt, controller.topic.delTopicItem);
+
 };

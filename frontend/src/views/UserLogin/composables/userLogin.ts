@@ -2,6 +2,7 @@ import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/api'
 import { authUtils } from '@/utils/auth.ts'
+import { ElMessage } from 'element-plus'
 // 定义登录表单的类型
 interface LoginForm {
   username: string
@@ -55,7 +56,8 @@ export const userLogin = () => {
         username: loginForm.username,
         password: loginForm.password,
       })
-      console.log(res, 666)
+      ElMessage.success('注册成功')
+      loginOrRegisterFn('login')
     } catch (e) {
       console.log(e)
     }

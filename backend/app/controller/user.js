@@ -31,7 +31,7 @@ class UserController extends Controller {
     if (user) {
       const token = await ctx.app.jwt.sign({ username: user.username, id: user._id },
         this.config.jwt.secret, {
-          expiresIn: 3600,
+          expiresIn: '7d',
         });
       ctx.status = 200;
       ctx.body = {

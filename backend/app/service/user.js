@@ -39,6 +39,19 @@ class UserService extends Service {
     }
     return user;
   }
+
+  async getCurrentUser() {
+    const { ctx, config } = this;
+    const token = ctx.request.header.authorization;
+    if (!token) {
+      ctx.throw(401, '请先登录');
+    }
+    // jwt.verify(),token 密钥
+    const decode = await ctx.app.jwt.verify(token, config.jwt.secret);
+    return await ctx.model.User.findOne({ _id: decode.id }).exec();
+  }
+
+
 }
 
 module.exports = UserService;
