@@ -1,4 +1,3 @@
-
 // import axios,{AxiosRequestConfig,AxiosResponse} from 'axios'
 // import type {ApiResponse} from '@/api/types/index.js'
 import axios from 'axios'
@@ -18,22 +17,29 @@ request.interceptors.request.use(
   (config) => {
     // 自动添加 token 到请求头
     const token = authUtils.getToken()
-    if (token){
-      config.headers.Authorization = `Bearer ${token}`
+    if (token) {
+      config.headers.Authorization = token
     }
     return config
   },
-  error => {
+  (error) => {
     return Promise.reject(error)
-  }
+  },
 )
-
 // 响应拦截器
 request.interceptors.response.use(
-  response => {
+  (response) => {
     return response
   },
-  error => {
+  (error) => {
+    // 处理错误
+    if (error.response.status === 401) {
+      // 401 状态码，清除 token
+      authUtils.removeToken()
+      // 弹出提示
+      // 跳转到登录页
+      window.location.href = '/login';
+    }
     return Promise.reject(error)
-  }
+  },
 )

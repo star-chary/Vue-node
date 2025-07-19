@@ -37,6 +37,8 @@ const onSwitch = () => {
         <el-input
           v-no-space
           type="password"
+          show-password
+          clearable
           v-model="loginForm.password"
           placeholder="请输入密码"
         />
