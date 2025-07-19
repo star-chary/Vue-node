@@ -19,10 +19,11 @@ module.exports = app => {
   const { router, controller } = app;
   const jwt = app.middleware.jwt(app.config.jwt);
   router.get('/', controller.home.index);
-  // 注册
-  router.post('/register', controller.user.register);
-  // 登录
+  // 登录 注册
   router.post('/login', controller.user.login);
+  router.post('/register', controller.user.register);
+
+  // 主题资源
   // 新建主题
   router.post('/topic', jwt, controller.topic.create);
   // 主题列表
@@ -31,5 +32,9 @@ module.exports = app => {
   router.get('/list/:id', jwt, controller.topic.getDetail);
   // 删除主题
   router.post('/del', jwt, controller.topic.delTopicItem);
-
+  // 修改主题
+  router.post('/modify', jwt, controller.topic.modifyTopicItem);
+  // 获取当前用户文章
+  router.get('/myTopic', jwt, controller.topic.getMyTopic);
+  
 };

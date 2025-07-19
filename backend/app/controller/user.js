@@ -33,12 +33,17 @@ class UserController extends Controller {
         this.config.jwt.secret, {
           expiresIn: '7d',
         });
+      // const userInfo = await ctx.service.user.getCurrentUser();
       ctx.status = 200;
       ctx.body = {
         msg: '登录成功',
         code: 200,
         data: {
           token,
+          userInfo: {
+            username: user.username,
+            id: user._id,
+          },
         },
       };
     } else {
@@ -46,6 +51,21 @@ class UserController extends Controller {
       ctx.body = { code: 401, msg: '用户名或密码错误', data: null };
     }
   }
+
+  // 获取用户信息
+  async getUserInfo() {
+    const { ctx } = this;
+    const user = await ctx.service.user.getCurrentUser();
+    ctx.body = {
+      code: 200,
+      msg: '获取成功',
+      data: {
+        username: user.username,
+        id: user._id,
+      },
+    };
+  }
+
 }
 
 module.exports = UserController;

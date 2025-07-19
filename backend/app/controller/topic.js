@@ -1,15 +1,30 @@
 const Controller = require('egg').Controller;
 
 class TopicController extends Controller {
+
+  // POST /create - 新建主题
   async create() {
     const { ctx } = this;
     const { body } = ctx.request;
-    const user = await ctx.service.user.getCurrentUser();
-    await ctx.service.topic.create({ ...body, author_name: user.username });
-    ctx.body = {
-      code: 200,
-      msg: '创建成功',
-    };
+    try {
+      // ✅ 直接传递body，用户信息在service中通过JWT获取
+      await ctx.service.topic.create(body);
+
+      ctx.status = 200;
+      ctx.body = {
+        code: 200,
+        msg: '创建成功',
+        data: null,
+      };
+    } catch (error) {
+      ctx.status = error.status || 500;
+      ctx.body = {
+        code: error.status || 500,
+        msg: error.message || '创建失败',
+        data: null,
+      };
+    }
+
   }
 
   // 获取列表
@@ -37,6 +52,33 @@ class TopicController extends Controller {
         data: {
           list: topics,
         },
+      };
+    }
+  }
+
+  // 获取当前用户的文章列表 - 需要登录
+  async getMyTopic() {
+    const { ctx } = this;
+    try {
+      // 通过 jwt 验证获取当前用户信息
+      const user = await ctx.service.user.getCurrentUser();
+
+      // 使用验证后的用户 ID 查询数据
+      const data = await ctx.service.topic.getMyTopic(user._id);
+      ctx.status = 200;
+      ctx.body = {
+        code: 200,
+        msg: '列表获取成功',
+        data: {
+          list: data,
+        },
+      };
+    } catch (error) {
+      ctx.status = error.status || 500;
+      ctx.body = {
+        code: error.status || 500,
+        msg: error.message || '服务器错误',
+        data: null,
       };
     }
   }
@@ -69,6 +111,7 @@ class TopicController extends Controller {
     }
   }
 
+  // 删除某一项
   async delTopicItem() {
     const { ctx } = this;
     const { id } = ctx.request.body;
@@ -83,7 +126,29 @@ class TopicController extends Controller {
         list: data,
       },
     };
+  }
 
+  // 更新/修改某一项
+  async modifyTopicItem() {
+    const { ctx } = this;
+    try {
+      const { body } = ctx.request;
+      await ctx.service.topic.modifyTopicItem(body);
+
+      ctx.status = 200;
+      ctx.body = {
+        code: 200,
+        msg: '修改成功',
+        data: null,
+      };
+    } catch (error) {
+      ctx.status = error.status || 500;
+      ctx.body = {
+        code: error.status || 500,
+        msg: error.message || '修改失败',
+        data: null,
+      };
+    }
 
   }
 
