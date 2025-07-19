@@ -121,7 +121,8 @@ const route = useRoute()
     .detail {
       background-color: white;
       border-radius: 8px;
-      overflow: hidden;
+      overflow:auto;
+      height: 100%;
 
       .detail-header-info {
         display: flex;

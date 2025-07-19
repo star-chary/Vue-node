@@ -29,5 +29,6 @@ import SideBar from '@/views/SideBar.vue'
 
 .rightBar {
   flex: 1;
+
 }
 </style>

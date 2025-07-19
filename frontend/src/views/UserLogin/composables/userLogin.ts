@@ -3,6 +3,8 @@ import { useRouter } from 'vue-router'
 import api from '@/api'
 import { authUtils } from '@/utils/auth.ts'
 import { ElMessage } from 'element-plus'
+import { useUserInfoStore } from '@/stores/userInfo.ts'
+
 // 定义登录表单的类型
 interface LoginForm {
   username: string
@@ -36,11 +38,14 @@ export const userLogin = () => {
         username: loginData.username,
         password: loginData.password,
       })
+      console.log(res, 66666)
       if (res.data.code === 200) {
         // 将 接收到的 token 存入本地
         authUtils.setToken(res.data.data.token)
+        // 将用户信息存入本地
+        authUtils.setUserInfo('userInfo', JSON.stringify(res.data.data.userInfo))
         // 跳转到主页
-        router.push('/mainlayout')
+        router.push('/mainlayout/topicList')
       }
     } catch (e) {
       console.log(e)
@@ -64,11 +69,18 @@ export const userLogin = () => {
     clearFn()
   }
 
+  // 退出登录
+  const handleLogout = () => {
+    authUtils.removeToken()
+    authUtils.removeUserInfo('userInfo')
+  }
+
   return {
     handleLogin,
     loginForm,
     loginOrRegister,
     handleRegister,
     loginOrRegisterFn,
+    handleLogout,
   }
 }

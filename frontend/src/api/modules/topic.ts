@@ -10,7 +10,7 @@ export const topicApi = {
     })
   },
   // 获取列表
-  getTopicList: (params) => {
+  getTopicList: (params?: object) => {
     return request({
       url: '/list',
       method: 'get',
@@ -25,11 +25,26 @@ export const topicApi = {
     })
   },
   // 删除
-  deleteTopic: (data) => {
+  deleteTopic: (data?: object) => {
     return request({
       url: '/del',
       method: 'post',
       data,
+    })
+  },
+  // 修改
+  modifyTopic: (data?: object) => {
+    return request({
+      url: '/modify',
+      method: 'post',
+      data,
+    })
+  },
+  // 获取当前用户文章
+  getMyTopic: () => {
+    return request({
+      url: '/myTopic',
+      method: 'get',
     })
   },
 }

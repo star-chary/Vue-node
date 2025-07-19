@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { authUtils } from '@/utils/auth.ts'
+import { userLogin } from '@/views/UserLogin/composables/userLogin.ts'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const handleLogout = () => {
-  authUtils.removeToken()
-  router.push('/login')
+const logout = () => {
+  userLogin().handleLogout()
+  router.push('/mainlayout/login')
 }
 </script>
 
 <template>
   <div>
-    <el-button @click="handleLogout" style="width: 100%" type="primary">退出登录</el-button>
+    <el-button @click="logout" style="width: 100%" type="primary">退出登录</el-button>
   </div>
 </template>
 

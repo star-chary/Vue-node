@@ -31,6 +31,16 @@ const router = createRouter({
           name: 'logout',
           component: () => import('@/views/Logout.vue'),
         },
+        {
+          path: 'modifyTopic/:id?',
+          name: 'modifyTopic',
+          component: () => import('@/views/ModifyTopic.vue'),
+        },
+        {
+          path: 'myPage',
+          name: 'myPage',
+          component: () => import('@/views/MyPage.vue'),
+        },
       ],
     },
     ...loginRoutes,

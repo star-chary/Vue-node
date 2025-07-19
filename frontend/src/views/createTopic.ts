@@ -1,11 +1,10 @@
 import api from '@/api/index.ts'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-
-interface TopicForm {
-  title: string
-  content: string
-}
+import { useUserInfoStore } from '@/stores/userInfo.ts'
+import type { TopicForm } from '@/types/index.ts'
+import { ElMessage } from 'element-plus'
+import { authUtils } from '@/utils/auth.ts'
 
 export const useCreateTopic = () => {
   let formRef = ref<FormInstance>()
@@ -28,17 +27,25 @@ export const useCreateTopic = () => {
     ],
   })
 
-  // 创建主题内容
+  // 新建主题
   const createTopic = async () => {
     try {
       // 如果验证通过
       const isValid = await formRef.value?.validate()
       if (isValid) {
+        const userInfo = JSON.parse(authUtils.getUserInfo('userInfo'))
+        const id = userInfo.id
         // 发起新建主题请求
-        await api.topic.createTopic({
-          title: form.value.title,// 标题
-          content: form.value.content,// 内容
+        const res = await api.topic.createTopic({
+          title: form.value.title, // 标题
+          content: form.value.content, // 内容
+          author_id: id,
         })
+        console.log(res, 8888)
+
+        if (res.data.code === 200 || res.status === 200) {
+          ElMessage.success('创建成功')
+        }
       }
 
       // 情况内容

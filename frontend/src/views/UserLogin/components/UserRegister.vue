@@ -33,6 +33,7 @@ const onSwitch = () => {
           v-no-space
           clearable
           type="password"
+          show-password
           v-model="loginForm.password"
           placeholder="请输入密码"
         />

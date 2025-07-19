@@ -15,6 +15,10 @@ const route = useRoute()
     <el-menu-item index="/mainlayout/topicDetail">
       <span>主题详情</span>
     </el-menu-item>
+    <el-menu-item index="/mainlayout/modifyTopic">
+      <span>修改主题</span>
+    </el-menu-item>
+    <el-menu-item index="/mainlayout/myPage">我的</el-menu-item>
     <el-menu-item index="/mainlayout/logout">
       <span>退出登录</span>
     </el-menu-item>
