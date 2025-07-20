@@ -1,45 +1,45 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { setupRouterGuards } from '@/router/guards.ts'
 // login
-import { loginRoutes } from '@/router/login/index.js'
+import { loginRoutes } from '@/modules/loginAndLogout/router/index.js'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/mainlayout',
-      component: () => import('@/views/MainLayout.vue'),
+      component: () => import('@/modules/layout/pages/MainLayout.vue'),
       redirect: '/mainlayout/createTopic',
       children: [
         {
           path: 'createTopic',
           name: 'createTopic',
-          component: () => import('@/views/CreateTopic.vue'),
+          component: () => import('@/modules/topic/pages/TopicAdd.vue'),
         },
         {
           path: 'topicList',
           name: 'topicList',
-          component: () => import('@/views/TopicList.vue'),
+          component: () => import('@/modules/topic/pages/TopicList.vue'),
         },
         {
           path: 'topicDetail/:id?',
           name: 'topicDetail',
-          component: () => import('@/views/TopicDetail.vue'),
+          component: () => import('@/modules/topic/pages/TopicDetail.vue'),
         },
         {
           path: 'logout',
           name: 'logout',
-          component: () => import('@/views/Logout.vue'),
+          component: () => import('@/modules/logout/pages/Logout.vue'),
         },
         {
           path: 'modifyTopic/:id?',
           name: 'modifyTopic',
-          component: () => import('@/views/ModifyTopic.vue'),
+          component: () => import('@/modules/topic/pages/TopicModify.vue'),
         },
         {
           path: 'myPage',
           name: 'myPage',
-          component: () => import('@/views/MyPage.vue'),
+          component: () => import('@/modules/topic/pages/MyPage.vue'),
         },
       ],
     },

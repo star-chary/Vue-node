@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTopicList } from '@/views/topicList.ts'
+import { useTopicList } from '@/modules/topic/composables/useTopicList.ts'
 
 const { tableData, tableHead, handleAction,handleSearch,inputData } = useTopicList()
 </script>

@@ -1,4 +1,4 @@
-import type { LoginData } from '@/api/types/user'
+import type { LoginData } from '@/modules/loginAndLogout/types'
 import { request } from '@/api/request'
 
 // 用户相关 api

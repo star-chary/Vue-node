@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useCreateTopic } from '@/views/createTopic.ts'
+import { useCreateTopic } from '@/modules/topic/composables/useTopicAdd.ts'
 
 const { createTopic, formRef, form, rules } = useCreateTopic()
 </script>

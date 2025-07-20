@@ -1,8 +1,8 @@
-import api from '@/api/index.ts'
+import api from '@/api'
 import { ref, onMounted } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { useUserInfoStore } from '@/stores/userInfo.ts'
-import type { TopicForm } from '@/types/index.ts'
+import type { TopicForm } from '@/types'
 import { ElMessage } from 'element-plus'
 import { authUtils } from '@/utils/auth.ts'
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import UserLogin from '@/views/UserLogin/components/UserLogin.vue'
-import UserRegister from '@/views/UserLogin/components/UserRegister.vue'
-import { userLogin } from '@/views/UserLogin/composables/userLogin'
+import UserLogin from '@/modules/loginAndLogout/components/UserLogin.vue'
+import UserRegister from '@/modules/loginAndLogout/components/UserRegister.vue'
+import { userLogin } from '@/modules/loginAndLogout/composables/userLogin'
 
 const { loginForm, handleLogin, handleRegister, loginOrRegister, loginOrRegisterFn } = userLogin()
 

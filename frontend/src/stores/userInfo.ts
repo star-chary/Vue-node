@@ -15,9 +15,7 @@ export const useUserInfoStore = defineStore('userInfo', () => {
     userInfo.id = data.id
   }
   // 从后端获取用户信息
-  const getUserInfo = () => {
-
-  }
+  const getUserInfo = () => {}
 
   return {
     userInfo,

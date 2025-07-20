@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { useTopicDetail } from '@/views/topicDetail.ts'
+import { useTopicDetail } from '@/modules/topic/composables/useTopicDetail.ts'
 import { formatTime } from '@/utils/format.ts'
 
 const { topicDetailData } = useTopicDetail()
