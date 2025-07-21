@@ -30,30 +30,49 @@ class TopicController extends Controller {
   // 获取列表
   async getList() {
     const { ctx } = this;
-    const { title } = ctx.query;
-    // 如果不是搜索
-    if (!title) {
-      const topics = await ctx.service.topic.getList();
+
+    try {
+      const { title = '', page = 1, pageSize = 10 } = ctx.request.body;
+      const result = await ctx.service.topic.getList(page, pageSize, title);
       ctx.status = 200;
       ctx.body = {
         code: 200,
         msg: '列表获取成功',
-        data: {
-          list: topics,
-        },
+        data: result,
       };
-    } else {
-      // 如果是搜索
-      const topics = await ctx.service.topic.getList(title);
-      ctx.status = 200;
+    } catch (error) {
+      ctx.status = error.status || 500;
       ctx.body = {
-        code: 200,
-        msg: '列表获取成功',
-        data: {
-          list: topics,
-        },
+        code: error.status || 500,
+        msg: error.message || '获取列表失败',
+        data: null,
       };
+
     }
+
+    // // 如果不是搜索
+    // if (!title) {
+    //   const topics = await ctx.service.topic.getList(page, pageSize);
+    //   ctx.status = 200;
+    //   ctx.body = {
+    //     code: 200,
+    //     msg: '列表获取成功',
+    //     data: {
+    //       list: topics,
+    //     },
+    //   };
+    // } else {
+    //   // 如果是搜索
+    //   const topics = await ctx.service.topic.getList(title);
+    //   ctx.status = 200;
+    //   ctx.body = {
+    //     code: 200,
+    //     msg: '列表获取成功',
+    //     data: {
+    //       list: topics,
+    //     },
+    //   };
+    // }
   }
 
   // 获取当前用户的文章列表 - 需要登录
@@ -62,16 +81,16 @@ class TopicController extends Controller {
     try {
       // 通过 jwt 验证获取当前用户信息
       const user = await ctx.service.user.getCurrentUser();
+      // 从查询参数或请求体获取分页参数
+      const { page = 1, pageSize = 10 } = ctx.request.body || {};
 
+      const result = await ctx.service.topic.getMyTopic(user._id, page, pageSize);
       // 使用验证后的用户 ID 查询数据
-      const data = await ctx.service.topic.getMyTopic(user._id);
       ctx.status = 200;
       ctx.body = {
         code: 200,
         msg: '列表获取成功',
-        data: {
-          list: data,
-        },
+        data: result,
       };
     } catch (error) {
       ctx.status = error.status || 500;

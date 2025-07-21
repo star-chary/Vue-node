@@ -15,19 +15,35 @@ class TopicService extends Service {
   }
 
   // 获取和查询文章列表  首页用
-  async getList(title) {
+  async getList(page = 1, pageSize = 10, title = '') {
     const { ctx } = this;
-    let allTopics;
+
+    // 构建查询条件
+    const query = {};
     if (title) {
-      allTopics = await ctx.model.Topic.find({ title: { $regex: title, $options: 'i' } });
-    } else {
-      allTopics = await ctx.model.Topic.find();
+      query.title = { $regex: title, $options: 'i' };
     }
-    return allTopics;
+    // 计算跳过的记录数
+    const skip = (page - 1) * pageSize;
+    // 并行执行查询和计数
+    const [ topics, total ] = await Promise.all([
+      ctx.model.Topic.find(query)
+        .sort({ create_at: -1 }) // 按创建时间倒序
+        .skip(skip)
+        .limit(pageSize),
+      ctx.model.Topic.countDocuments(query), // 获取总数
+    ]);
+
+    return {
+      list: topics,
+      total,
+    };
+
+
   }
 
   // 获取当前用户的文章列表 - 个人管理页面用
-  async getMyTopic(userId) {
+  async getMyTopic(userId, page = 1, pageSize = 10) {
     const { ctx } = this;
 
     // 验证 ID 是否有效
@@ -35,8 +51,23 @@ class TopicService extends Service {
       ctx.throw(400, '用户 ID 无效');
     }
 
-    return ctx.model.Topic.find({ author_id: userId })
-      .sort({ create_at: -1 });
+    const skip = pageSize * (page - 1);
+    const query = { author_id: userId };
+
+
+    const [ topics, total ] = await Promise.all([
+      ctx.model.Topic.find(query)
+        .sort({ create_at: -1 })
+        .skip(skip)
+        .limit(pageSize),
+      ctx.model.Topic.countDocuments(query),
+    ]);
+
+    return {
+      list: topics,
+      total,
+    };
+
 
   }
 
