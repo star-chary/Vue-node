@@ -1,5 +1,5 @@
-import { ref, onMounted } from 'vue'
-import type { Row } from '@/modules/topic/types/topic.ts'
+import { ref, onMounted, reactive } from 'vue'
+import type { Row, Page } from '@/modules/topic/types/topic.ts'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 import api from '@/api'
@@ -43,10 +43,27 @@ export const useMyPage = () => {
     },
   ])
 
+  const page = reactive<Page>({
+    page: 1,
+    pageSize: 10,
+  })
+  const total = ref(0)
+
   // 获取用户列表
   const handleGetList = async () => {
-    const res = await api.topic.getMyTopic()
+    const res = await api.topic.getMyTopic(page)
     topicData.value = res.data.data.list
+    total.value = res.data.data.total
+  }
+  const handleSizeChange = async (size: number) => {
+    console.log(size, 888)
+    page.pageSize = size
+    await handleGetList()
+  }
+  const handleCurrentChange = async (currentPage: number) => {
+    console.log(currentPage, 999)
+    page.page = currentPage
+    await handleGetList()
   }
 
   // 查看
@@ -97,6 +114,10 @@ export const useMyPage = () => {
   return {
     topicData,
     tableHead,
+    page,
     handleAction,
+    handleSizeChange,
+    handleCurrentChange,
+    total,
   }
 }

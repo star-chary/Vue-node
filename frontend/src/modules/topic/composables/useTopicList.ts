@@ -2,7 +2,7 @@ import { ref, onMounted, provide, watch } from 'vue'
 import api from '@/api'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import type { Row } from '@/modules/topic/types/topic.ts'
+import type { Row, Page } from '@/modules/topic/types/topic.ts'
 
 export const useTopicList = () => {
   const router = useRouter()
@@ -33,14 +33,35 @@ export const useTopicList = () => {
   ])
 
   const inputData = ref('')
+  const page = ref<Page>({
+    page: 1,
+    pageSize: 10,
+    title: '',
+  })
+  const total = ref(0)
   // 获取列表
   const handleGetList = async () => {
     try {
-      const res = await api.topic.getTopicList()
+      const res = await api.topic.getTopicList({
+        page: page.value.page,
+        pageSize: page.value.pageSize,
+        title: page.value.title,
+      })
       tableData.value = res.data.data.list
+      total.value = res.data.data.total
     } catch (e) {
       console.log(e)
     }
+  }
+
+  // 分页操作
+  const handleCurrentChange = async (currentPage: number) => {
+    page.value.page = currentPage
+    await handleGetList()
+  }
+  const handleSizeChange = async (size: number) => {
+    page.value.pageSize = size
+    await handleGetList()
   }
 
   // 查看
@@ -85,8 +106,12 @@ export const useTopicList = () => {
     tableData,
     tableHead,
     inputData,
+    page,
     handleView,
+    total,
     handleSearch,
     handleAction,
+    handleSizeChange,
+    handleCurrentChange,
   }
 }

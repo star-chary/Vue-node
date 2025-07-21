@@ -33,5 +33,36 @@ export default defineConfig([
 
   js.configs.recommended,
   ...pluginVue.configs['flat/essential'],
+
+// ✅ 为 TypeScript 文件添加特殊配置
+{
+  files: ['**/*.{ts,tsx}'],
+  languageOptions: {
+    parser: tsParser,
+    parserOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+    },
+  },
+  plugins: {
+    '@typescript-eslint': tseslint,
+  },
+  rules: {
+    ...tseslint.configs.recommended.rules,
+  },
+},
+
+// ✅ 为 Vue 文件中的 <script lang="ts"> 添加 TypeScript 支持
+{
+  files: ['**/*.vue'],
+  languageOptions: {
+    parserOptions: {
+      parser: tsParser,
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+    },
+  },
+},
+
   skipFormatting,
 ])

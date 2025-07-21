@@ -10,3 +10,9 @@ export interface Row {
   reply_count: number
   _id: string
 }
+// 页，页大小
+export interface Page {
+  page: number
+  pageSize: number
+  title?: string
+}

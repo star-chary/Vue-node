@@ -2,7 +2,8 @@
 import { authUtils } from '@/utils/auth.ts'
 import { useMyPage } from '@/modules/topic/composables/myPage.ts'
 
-const { tableHead, topicData, handleAction } = useMyPage()
+const { tableHead, topicData, handleAction, page, handleCurrentChange, handleSizeChange, total } =
+  useMyPage()
 </script>
 <template>
   <div class="myPage-container">
@@ -44,6 +45,14 @@ const { tableHead, topicData, handleAction } = useMyPage()
         </el-table-column>
       </el-table>
     </div>
+    <el-pagination
+      v-model:page-size="page.pageSize"
+      v-model:current-page="page.page"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      layout="prev, pager, next"
+      :total="total"
+    />
   </div>
 </template>
 

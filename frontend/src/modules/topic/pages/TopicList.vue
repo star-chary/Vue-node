@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import { useTopicList } from '@/modules/topic/composables/useTopicList.ts'
 
-const { tableData, tableHead, handleAction,handleSearch,inputData } = useTopicList()
+const {
+  tableData,
+  tableHead,
+  handleAction,
+  handleSearch,
+  inputData,
+  page,
+  total,
+  handleSizeChange,
+  handleCurrentChange,
+} = useTopicList()
 </script>
 
 <template>
@@ -11,19 +21,21 @@ const { tableData, tableHead, handleAction,handleSearch,inputData } = useTopicLi
     <div class="list-table">
       <div class="table-container">
         <div class="search-bar">
-          <el-input style="height: 50px" v-no-space v-model="inputData" clearable placeholder="请输入查询文章">
+          <el-input
+            style="height: 50px"
+            v-no-space
+            v-model="inputData"
+            clearable
+            placeholder="请输入查询文章"
+          >
             <template #append>
               <el-button @click="handleSearch(inputData)">搜索</el-button>
             </template>
           </el-input>
         </div>
         <div class="table-list">
-          <el-table
-            :data="tableData"
-            style="width: 100%;"
-            height="100%"
-            :scroll-y="true"
-          >
+          <el-table :data="tableData" style="width: 100%" height="100%" :scroll-y="true">
+            <el-table-column type="index" width="50" />
             <el-table-column
               v-for="item in tableHead"
               :key="item._id"
@@ -37,18 +49,24 @@ const { tableData, tableHead, handleAction,handleSearch,inputData } = useTopicLi
                   :key="index"
                   link
                   size="default"
-                  @click="handleAction(action.prop,escope.row)"
-                >{{ action.label }}</el-button
+                  @click="handleAction(action.prop, escope.row)"
+                  >{{ action.label }}</el-button
                 >
               </template>
               <template v-else-if="item.prop === 'content'" #default="escope">
-                <div class="content-cell">
-                  {{ escope.row.content }}2
-                </div>
+                <div class="content-cell">{{ escope.row.content }}2</div>
               </template>
             </el-table-column>
           </el-table>
         </div>
+        <el-pagination
+          v-model:page-size="page.pageSize"
+          v-model:current-page="page.page"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          layout="prev, pager, next"
+          :total="total"
+        />
       </div>
     </div>
   </div>
@@ -77,7 +95,7 @@ const { tableData, tableHead, handleAction,handleSearch,inputData } = useTopicLi
   .list-table {
     flex: 1;
     background-color: rgb(240, 240, 240);
-    padding: 40px;
+    padding: 30px;
     overflow: hidden; /* 防止溢出 */
 
     .table-container {
