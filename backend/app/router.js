@@ -27,7 +27,7 @@ module.exports = app => {
   // 新建主题
   router.post('/topic', jwt, controller.topic.create);
   // 主题列表
-  router.get('/list', jwt, controller.topic.getList);
+  router.post('/list', jwt, controller.topic.getList);
   // 主题详情
   router.get('/list/:id', jwt, controller.topic.getDetail);
   // 删除主题
@@ -35,6 +35,11 @@ module.exports = app => {
   // 修改主题
   router.post('/modify', jwt, controller.topic.modifyTopicItem);
   // 获取当前用户文章
-  router.get('/myTopic', jwt, controller.topic.getMyTopic);
-  
+  router.post('/myTopic', jwt, controller.topic.getMyTopic);
+
+  // 评论路由
+  router.post('/createComment', jwt, controller.comment.createComment);
+  // 获取文章评论
+  router.post('/getCommentList', jwt, controller.comment.getCommentList);
+
 };

@@ -1,2 +1,2 @@
 // 导出所有类型
-export * from './topic.ts'
+export * from '@/modules/topic/types/topic.ts'

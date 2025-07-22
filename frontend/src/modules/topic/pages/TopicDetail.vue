@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { useTopicDetail } from '@/views/topicDetail.ts'
+import { useTopicDetail } from '@/modules/topic/composables/useTopicDetail.ts'
 import { formatTime } from '@/utils/format.ts'
+import { ref } from 'vue'
 
-const { topicDetailData } = useTopicDetail()
+const { topicDetailData, comment_content, handleComment, commentList } = useTopicDetail()
 
 const route = useRoute()
 </script>
@@ -50,30 +51,32 @@ const route = useRoute()
             <!-- 评论输入框 -->
             <div class="comment-input">
               <el-input
+                v-model="comment_content"
+                clearable
                 type="textarea"
                 placeholder="发表你的评论..."
                 :autosize="{ minRows: 3, maxRows: 6 }"
               />
               <div class="comment-actions">
-                <el-button type="primary" style="margin-top: 10px">发表评论</el-button>
+                <el-button @click="handleComment" type="primary" style="margin-top: 10px"
+                  >发表评论</el-button
+                >
               </div>
             </div>
 
             <!-- 评论列表 -->
             <div class="comments-list">
               <!-- 模拟评论数据 -->
-              <div class="comment-item" v-for="i in 10" :key="i">
+              <div class="comment-item" v-for="item in commentList" :key="item.author_id">
                 <div class="comment-avatar">
-                  <el-avatar>用户{{ i }}</el-avatar>
+                  <el-avatar>用户{{ item.author_name }}</el-avatar>
                 </div>
                 <div class="comment-content">
-                  <div class="comment-user">用户{{ i }}</div>
+                  <div class="comment-user">{{ item.author_name}}</div>
                   <div class="comment-text">
-                    这是第{{ i }}条评论内容。这里可以写很长的评论内容，用来测试滚动效果。 Lorem
-                    ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua.
+                 {{ item.comment_content}}
                   </div>
-                  <div class="comment-time">{{ i }}分钟前</div>
+                  <div class="comment-time">{{ formatTime(item.create_at) }}</div>
                 </div>
               </div>
             </div>
@@ -121,7 +124,7 @@ const route = useRoute()
     .detail {
       background-color: white;
       border-radius: 8px;
-      overflow:auto;
+      overflow: auto;
       height: 100%;
 
       .detail-header-info {

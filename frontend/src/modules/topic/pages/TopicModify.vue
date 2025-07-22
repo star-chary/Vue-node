@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // import { formatTime } from '@/utils/format.ts'
 import { useRoute } from 'vue-router'
-import { useTopicStore } from '@/stores/topic.ts'
+import { useTopicStore } from '@/modules/topic/stores/topic.ts'
 
 const route = useRoute()
 

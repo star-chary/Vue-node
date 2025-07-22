@@ -1,5 +1,5 @@
 <script setup>
-import SideBar from '@/views/SideBar.vue'
+import SideBar from '@/modules/layout/pages/SideBar.vue'
 </script>
 
 <template>

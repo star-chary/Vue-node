@@ -1,4 +1,5 @@
-import { request } from '@/api/request.js'
+import { request } from '@/api/request.ts'
+import type { Page } from '@/modules/topic/types/topic'
 
 export const topicApi = {
   // 新建话题
@@ -10,11 +11,11 @@ export const topicApi = {
     })
   },
   // 获取列表
-  getTopicList: (params?: object) => {
+  getTopicList: (data?: object) => {
     return request({
       url: '/list',
-      method: 'get',
-      params,
+      method: 'post',
+      data,
     })
   },
   // 列表详情
@@ -41,10 +42,11 @@ export const topicApi = {
     })
   },
   // 获取当前用户文章
-  getMyTopic: () => {
+  getMyTopic: (data: Page) => {
     return request({
       url: '/myTopic',
-      method: 'get',
+      method: 'post',
+      data,
     })
   },
 }

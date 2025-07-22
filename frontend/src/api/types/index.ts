@@ -1,3 +1,3 @@
 // 类型统一导出
-export * from './user'
+export * from '../../modules/loginAndLogout/types'
 export * from './common'

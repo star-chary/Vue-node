@@ -1,20 +1,15 @@
-import { ref, onMounted, provide, watch } from 'vue'
-import api from '@/api'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, reactive } from 'vue'
+import type { Row, Page } from '@/modules/topic/types/topic.ts'
 import { ElMessage } from 'element-plus'
-import { useTopicStore } from '@/stores/topic.ts'
+import { useRouter } from 'vue-router'
+import api from '@/api'
+import { useTopicStore } from '@/modules/topic/stores/topic.ts'
 
-interface Row {
-  title: string
-  content: string
-  reply_count: number
-  _id: string
-}
-
-export const useTopicList = () => {
-  const { toggleEditing, initFormForEdit } = useTopicStore()
+export const useMyPage = () => {
   const router = useRouter()
-  const tableData = ref([])
+  const { toggleEditing, initFormForEdit } = useTopicStore()
+
+  const topicData = ref([])
   const tableHead = ref([
     {
       label: '标题',
@@ -48,15 +43,27 @@ export const useTopicList = () => {
     },
   ])
 
-  const inputData = ref('')
-  // 获取列表
+  const page = reactive<Page>({
+    page: 1,
+    pageSize: 10,
+  })
+  const total = ref(0)
+
+  // 获取用户列表
   const handleGetList = async () => {
-    try {
-      const res = await api.topic.getTopicList()
-      tableData.value = res.data.data.list
-    } catch (e) {
-      console.log(e)
-    }
+    const res = await api.topic.getMyTopic(page)
+    topicData.value = res.data.data.list
+    total.value = res.data.data.total
+  }
+  const handleSizeChange = async (size: number) => {
+    console.log(size, 888)
+    page.pageSize = size
+    await handleGetList()
+  }
+  const handleCurrentChange = async (currentPage: number) => {
+    console.log(currentPage, 999)
+    page.page = currentPage
+    await handleGetList()
   }
 
   // 查看
@@ -68,15 +75,6 @@ export const useTopicList = () => {
       console.log(e)
     }
   }
-
-  // 搜索
-  const handleSearch = async (input: string) => {
-    const res = await api.topic.getTopicList({
-      title: input,
-    })
-    tableData.value = res.data.data.list
-  }
-
   // 删除
   const handleDelete = async (row: Row) => {
     try {
@@ -88,7 +86,6 @@ export const useTopicList = () => {
       console.log(e)
     }
   }
-
   // 编辑
   const handleEdit = async (row: Row) => {
     // 切换编辑状态
@@ -110,26 +107,17 @@ export const useTopicList = () => {
     }
   }
 
-  watch(
-    () => inputData.value,
-    async (newVal, oldVal) => {
-      if (newVal.length === 0) {
-        await handleGetList()
-      }
-    },
-  )
-
   onMounted(async () => {
     await handleGetList()
   })
 
   return {
-    tableData,
+    topicData,
     tableHead,
-    inputData,
-    handleView,
-    handleSearch,
-    handleDelete,
+    page,
     handleAction,
+    handleSizeChange,
+    handleCurrentChange,
+    total,
   }
 }

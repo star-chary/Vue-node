@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { userLogin } from '@/views/UserLogin/composables/userLogin.ts'
+import { userLogin } from '@/modules/loginAndLogout/composables/userLogin.ts'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
