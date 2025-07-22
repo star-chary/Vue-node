@@ -75,6 +75,9 @@ class TopicService extends Service {
   // 获取主题详情
   async getDetail(id) {
     const { ctx } = this;
+    if (!id) {
+      return null;
+    }
     const detail = await ctx.model.Topic.findById({ _id: id });
 
     if (!detail) {

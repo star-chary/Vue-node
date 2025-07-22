@@ -37,4 +37,9 @@ module.exports = app => {
   // 获取当前用户文章
   router.post('/myTopic', jwt, controller.topic.getMyTopic);
 
+  // 评论路由
+  router.post('/createComment', jwt, controller.comment.createComment);
+  // 获取文章评论
+  router.post('/getCommentList', jwt, controller.comment.getCommentList);
+
 };

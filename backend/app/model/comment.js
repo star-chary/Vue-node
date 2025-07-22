@@ -3,7 +3,7 @@ module.exports = app => {
   const Schema = mongoose.Schema;
 
   const commentsSchema = new Schema({
-    content: String,
+    comment_content: String,
     author_id: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // 关联用户 ID
     author_name: { type: String, required: true },
     topic_id: { type: Schema.Types.ObjectId, ref: 'Topic', required: true }, // 关联主题 ID

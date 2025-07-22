@@ -108,6 +108,16 @@ class TopicController extends Controller {
     const { id } = ctx.params;
 
     try {
+      // ✅ 在调用 service 之前先验证 ID
+      if (!id || id.trim() === '') {
+        ctx.status = 400;
+        ctx.body = {
+          code: 400,
+          msg: 'ID 参数不能为空',
+          data: null,
+        };
+        return;
+      }
 
       const detail = await ctx.service.topic.getDetail(id);
       if (detail) {
