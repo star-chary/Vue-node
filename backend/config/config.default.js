@@ -28,10 +28,19 @@ module.exports = appInfo => {
     secret: 'jwt-secret',
   };
 
+  // 配置跨域
   config.cors = {
     origin: '*',
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
     credentials: true,
+  };
+
+  // 配置文件上传
+  config.multipart = {
+    mode: 'file', // 设置 file 模式 Egg 会自动处理 multipart请求
+    fileSize: '50mb',
+    fileExtensions: [ '.jpg', '.jpeg', '.png', '.gif', '.bmp' ],
+    files: 10,
   };
 
   // add your user config here
