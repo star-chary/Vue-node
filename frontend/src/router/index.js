@@ -41,6 +41,11 @@ const router = createRouter({
           name: 'myPage',
           component: () => import('@/modules/topic/pages/MyPage.vue'),
         },
+        {
+          path: 'topicList_card',
+          name: 'topicList_card',
+          component: () => import('@/modules/topic/pages/TopicList_Card.vue'),
+        },
       ],
     },
     ...loginRoutes,

@@ -33,13 +33,13 @@ request.interceptors.response.use(
   },
   (error) => {
     // 处理错误
-    if (error.response.status === 401) {
-      // 401 状态码，清除 token
-      authUtils.removeToken()
-      // 弹出提示
-      // 跳转到登录页
-      window.location.href = '/login';
-    }
+    // if (error.response.status === 401) {
+    //   // 401 状态码，清除 token
+    //   authUtils.removeToken()
+    //   // 弹出提示
+    //   // 跳转到登录页
+    //   window.location.href = '/login';
+    // }
     return Promise.reject(error)
   },
 )
