@@ -7,18 +7,22 @@
     "declarations": true
   },
   "dependencies": {
+    "dayjs": "^1.11.13",
     "egg": "^3.17.5",
     "egg-cors": "^3.0.1",
     "egg-jwt": "^3.1.7",
     "egg-mongoose": "^4.0.1",
     "egg-scripts": "2",
-    "mongoose": "^8.16.2"
+    "mkdirp": "^3.0.1",
+    "mongoose": "^8.16.2",
+    "sharp": "^0.34.3",
+    "stream-wormhole": "^2.0.1"
   },
   "devDependencies": {
-    "egg-bin": "6",
-    "egg-mock": "5",
-    "eslint": "8",
-    "eslint-config-egg": "13"
+    "egg-bin": "^6.0.0",
+    "egg-mock": "^5.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-egg": "^13.0.0"
   },
   "engines": {
     "node": ">=18.0.0"

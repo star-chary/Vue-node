@@ -9,8 +9,9 @@ const route = useRoute()
     <el-menu-item index="/mainlayout/createTopic">
       <span>新建主题</span>
     </el-menu-item>
-    <el-menu-item index="/mainlayout/topicList">
-      <span>主题列表</span>
+    <el-menu-item index="/mainlayout/topicList"> <span>主题列表(table 类型)</span> </el-menu-item
+    ><el-menu-item index="/mainlayout/topicList_Card">
+      <span>主题列表(Card 类型)</span>
     </el-menu-item>
     <el-menu-item index="/mainlayout/topicDetail">
       <span>主题详情</span>

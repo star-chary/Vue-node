@@ -2,15 +2,17 @@ const Service = require('egg').Service;
 
 class TopicService extends Service {
   // 增加
-  async create(body) {
+  async create(topicData) {
     const { ctx } = this;
-    const user = await ctx.service.user.getCurrentUser();
 
     const topic = new ctx.model.Topic();
-    topic.title = body.title;
-    topic.content = body.content;
-    topic.author_id = user._id;
-    topic.author_name = user.username;
+    topic.title = topicData.title;
+    topic.content = topicData.content;
+    topic.author_id = topicData.author_id; // ✅ 从传入参数获取
+    topic.author_name = topicData.author_name; // ✅ 从传入参数获取
+    topic.images = topicData.images || [];
+    topic.cover_image = topicData.cover_image || null;
+
     return topic.save();
   }
 
@@ -109,13 +111,13 @@ class TopicService extends Service {
   // 删除文章，只能删除自己的
   async delMyTopicItem(id) {
     const { ctx } = this;
-    const user = await ctx.service.user.getCurrentUser();
+    // const user = await ctx.service.user.getCurrentUser();
     // 先查找文章，确认是当前用户创建的
     const topic = await ctx.model.Topic.findById(id);
     if (!topic) {
       ctx.throw(404, '文章不存在');
     }
-    ctx.model.Topic.deleteOne({ _id: id, author_id: user._id });
+    ctx.model.Topic.deleteOne({ _id: id, author_id: ctx.user.id });
   }
 
   // 更新或修改某一项

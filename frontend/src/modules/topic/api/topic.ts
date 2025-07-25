@@ -3,13 +3,27 @@ import type { Page } from '@/modules/topic/types/topic'
 
 export const topicApi = {
   // 新建话题
-  createTopic: (data: object) => {
+  createTopic: (data?: FormData) => {
     return request({
       url: '/topic',
       method: 'post',
       data,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     })
   },
+
+  // createTopicFile: (data?:FormData) => {
+  //   return request({
+  //     url: '/topicFiles',
+  //     method: 'post',
+  //     data,
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data'
+  //     }
+  //   })
+  // },
   // 获取列表
   getTopicList: (data?: object) => {
     return request({

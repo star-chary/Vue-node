@@ -12,6 +12,7 @@ class UserController extends Controller {
     try {
       await ctx.service.user.register(username, password);
       // 设置响应内容，将用户名和密码作为 JSON 返回
+      ctx.status = 200;
       ctx.body = { username, password };
     } catch (e) {
       if (e.status === 409) {

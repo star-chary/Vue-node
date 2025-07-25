@@ -61,7 +61,6 @@ class UserService extends Service {
     } catch (error) {
       ctx.throw(401, '请先登录');
     }
-
   }
 
 

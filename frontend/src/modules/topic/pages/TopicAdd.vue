@@ -1,7 +1,18 @@
 <script setup lang="ts">
 import { useCreateTopic } from '@/modules/topic/composables/useTopicAdd.ts'
 
-const { createTopic, formRef, form, rules } = useCreateTopic()
+const {
+  createTopic,
+  formRef,
+  form,
+  rules,
+  fileList,
+  dialogImageUrl,
+  dialogVisible,
+  handlePictureCardPreview,
+  handleRemove,
+  uploadRef,
+} = useCreateTopic()
 </script>
 
 <template>
@@ -17,13 +28,27 @@ const { createTopic, formRef, form, rules } = useCreateTopic()
           clearable
           type="textarea"
           placeholder="请输入内容"
-          :autosize="{ minRows: 3, maxRows: 20}"
+          :autosize="{ minRows: 3, maxRows: 20 }"
         ></el-input>
       </el-form-item>
     </el-form>
+    <el-upload
+      ref="uploadRef"
+      v-model:file-list="fileList"
+      :auto-upload="false"
+      list-type="picture-card"
+      :on-preview="handlePictureCardPreview"
+      :on-remove="handleRemove"
+    >
+      <el-icon><Plus /></el-icon>
+    </el-upload>
+
+    <el-dialog v-model="dialogVisible">
+      <img w-full :src="dialogImageUrl" alt="Preview Image" />
+    </el-dialog>
     <el-button
       style="display: block; width: 400px; margin: 0 auto"
-      @click="createTopic"
+      @click="createTopic(fileList)"
       type="primary"
       >提交</el-button
     >
@@ -37,5 +62,32 @@ const { createTopic, formRef, form, rules } = useCreateTopic()
   background-color: white;
   padding: 40px;
   box-sizing: border-box;
+}
+
+.avatar-uploader .avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
 }
 </style>
