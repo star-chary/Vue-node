@@ -38,3 +38,29 @@ export interface GetCommentParams {
   page?: number
   pageSize?: number
 }
+// 主题列表项类型
+interface images {
+  _id: string
+  author_id: string
+  filename: string
+  height: number
+  size: number
+  url: string
+  width: number
+}
+export interface TopicListItem {
+  author_id: string
+  author_name: string
+  content: string
+  cover_image?: {
+    height: number
+    url: string
+    width: number
+  }
+  create_at: string
+  images?: images[]
+  reply_count: number
+  title: string
+  update_at: string
+  _id: string
+}
