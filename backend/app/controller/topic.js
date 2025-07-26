@@ -1,5 +1,4 @@
 const Controller = require('egg').Controller;
-const sendToWormhole = require('stream-wormhole');
 const path = require('node:path');
 const dayjs = require('dayjs');
 const fs = require('node:fs');
@@ -7,170 +6,8 @@ const { mkdirp } = require('mkdirp');
 const sharp = require('sharp');
 
 class TopicController extends Controller {
-
-
-  // async create() {
-  //   const { ctx, app } = this;
-  //
-  //   try {
-  //     // 获取用户信息（不要在这里消费请求体）
-  //     // const user = await ctx.service.user.getCurrentUser();
-  //
-  //     const files = [];
-  //     // let formFields = {};
-  //
-  //     // ⚠️ 确保这是第一次也是唯一一次调用 ctx.multipart()
-  //     const parts = ctx.multipart({ autoFields: true });
-  //     let part;
-  //
-  //     // 使用 async iterator 方式处理（推荐）
-  //     while ((part = await parts()) !== null) {
-  //       if (part.length) {
-  //         // 这是一个字段
-  //         console.log('field: ' + part.toString());
-  //         await sendToWormhole(part);
-  //       } else {
-  //         // 这是一个文件
-  //         if (!part.filename) {
-  //           await sendToWormhole(part);
-  //           continue;
-  //         }
-  //
-  //         // 创建存储文件的文件夹名称
-  //         const uploadDir = path.join(app.baseDir, 'app/public/uploads', dayjs()
-  //           .format('YYYYMMDD'));
-  //         await mkdirp(uploadDir);
-  //
-  //         // 创建文件名
-  //         const filename = `${Date.now()}-${part.filename}`;
-  //         const filePath = path.join(uploadDir, filename);
-  //         const writeStream = fs.createWriteStream(filePath);
-  //
-  //         try {
-  //           // 写入文件
-  //           await part.pipe(writeStream);
-  //
-  //           // 获取图片信息
-  //           const dimensions = sizeOf(filePath);
-  //           files.push({
-  //             url: `/public/uploads/${dayjs()
-  //               .format('YYYYMMDD')}/${filename}`,
-  //             width: dimensions.width,
-  //             height: dimensions.height,
-  //             size: fs.statSync(filePath).size,
-  //             filename: part.filename,
-  //             author_id: ctx.user.id,
-  //           });
-  //
-  //         } catch (err) {
-  //           await sendToWormhole(part);
-  //           throw err;
-  //         }
-  //       }
-  //     }
-  //
-  //     // 获取表单字段（从 parts 对象中）
-  //     // formFields = parts.field || {};
-  //
-  //     // 构建 topic 对象
-  //     const topicData = {
-  //       // title: formFields.title,
-  //       title: parts.field.title,
-  //       // content: formFields.content,
-  //       content: parts.field.content,
-  //       author_id: ctx.user.id,
-  //       author_name: ctx.user.username,
-  //       images: files,
-  //       cover_image: files.length > 0 ? {
-  //         url: files[0].url,
-  //         width: files[0].width,
-  //         height: files[0].height,
-  //       } : null,
-  //     };
-  //
-  //     // 创建主题
-  //     const result = await ctx.service.topic.create(topicData);
-  //
-  //     ctx.status = 200;
-  //     ctx.body = {
-  //       code: 200,
-  //       msg: '创建成功',
-  //       data: result,
-  //     };
-  //
-  //   } catch (error) {
-  //     console.error('创建主题失败:', error);
-  //     ctx.status = error.status || 500;
-  //     ctx.body = {
-  //       code: error.status || 500,
-  //       msg: error.message || '创建失败',
-  //       data: null,
-  //     };
-  //   }
-  // }
-
-  //
-  // async created() {
-  //   const { ctx } = this;
-  //   console.log('🎯 控制器开始执行');
-  //
-  //   // ✅ 检查请求流状态
-  //   console.log('请求流状态检查:');
-  //   console.log('- ctx.request.body:', ctx.request.body);
-  //   console.log('- ctx.request.files:', ctx.request.files);
-  //   console.log('- ctx.req.readable:', ctx.req.readable);
-  //   console.log('- ctx.req.readableEnded:', ctx.req.readableEnded);
-  //
-  //   console.log('jwtToken 存在?', !!ctx.jwtToken);
-  //
-  //   try {
-  //     // JWT 验证
-  //     if (ctx.jwtToken) {
-  //       console.log('✅ 开始验证 JWT token');
-  //       const decode = await ctx.app.jwt.verify(ctx.jwtToken, ctx.jwtOptions.secret);
-  //       ctx.user = decode;
-  //       console.log('✅ JWT 验证成功, 用户:', ctx.user.username || ctx.user.id);
-  //     } else {
-  //       console.log('❌ 没有找到 jwtToken');
-  //       ctx.status = 401;
-  //       ctx.body = { code: 401, status: 'fail', message: '未授权访问' };
-  //       return;
-  //     }
-  //
-  //     console.log('📦 准备调用 ctx.multipart()');
-  //     const parts = ctx.multipart({ autoFields: true });
-  //     console.log('📦 ctx.multipart() 调用成功');
-  //
-  //     let part;
-  //     while ((part = await parts()) !== null) {
-  //       console.log('处理 part:', part.filename || 'field');
-  //       await sendToWormhole(part);
-  //     }
-  //
-  //     console.log('📝 表单字段:', parts.field);
-  //
-  //     ctx.status = 200;
-  //     ctx.body = {
-  //       code: 200,
-  //       msg: '创建成功',
-  //       data: parts.field,
-  //     };
-  //
-  //   } catch (error) {
-  //     console.error('❌ 控制器错误:', error);
-  //     ctx.status = error.status || 500;
-  //     ctx.body = {
-  //       code: error.status || 500,
-  //       msg: error.message || '创建失败',
-  //       data: null,
-  //     };
-  //   }
-  // }
-
-
   async create() {
     const { ctx } = this;
-    console.log('🔍 ctx.request.files:', JSON.stringify(ctx.request.files, null, 2));
 
     try {
       // ✅ 添加 JWT 验证
@@ -324,7 +161,7 @@ class TopicController extends Controller {
     }
   }
 
-  // 获取列表
+  // 获取列表 table
   async getList() {
     const { ctx } = this;
 
@@ -366,6 +203,7 @@ class TopicController extends Controller {
     //   };
     // }
   }
+
 
   // 获取当前用户的文章列表 - 需要登录
   async getMyTopic() {

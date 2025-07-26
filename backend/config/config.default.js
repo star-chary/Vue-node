@@ -1,5 +1,5 @@
 /* eslint valid-jsdoc: "off" */
-
+const path = require('path');
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -42,6 +42,15 @@ module.exports = appInfo => {
     fileExtensions: [ '.jpg', '.jpeg', '.png', '.gif', '.bmp' ],
     files: 10,
   };
+  config.static = {
+    prefix: '/public/',
+    dir: path.join(appInfo.baseDir, 'app/public'),
+    // 开启动态文件，生产环境建议关闭
+    dynamic: true,
+    preload: false,
+    maxAge: 31536000, // 缓存一年
+  };
+
 
   // add your user config here
   const userConfig = {
