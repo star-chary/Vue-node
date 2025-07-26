@@ -15,7 +15,7 @@ import SideBar from '@/modules/layout/pages/SideBar.vue'
 
 <style scoped>
 .appContainer {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: row;
@@ -24,11 +24,10 @@ import SideBar from '@/modules/layout/pages/SideBar.vue'
 .sideBar {
   width: 200px;
   height: 100%;
-  background-color:white;
+  background-color: white;
 }
 
 .rightBar {
   flex: 1;
-
 }
 </style>

@@ -59,7 +59,7 @@ export const useCreateTopic = () => {
         }
         const userInfo = JSON.parse(userInfoStr)
         const id = userInfo.id
-
+        // 新建 formData 表单数据
         const formData = new FormData()
         formData.append('title', form.value.title)
         formData.append('content', form.value.content)
