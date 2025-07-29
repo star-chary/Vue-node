@@ -45,7 +45,7 @@ export const userLogin = () => {
         // 将用户信息存入本地
         authUtils.setUserInfo('userInfo', JSON.stringify(res.data.data.userInfo))
         // 跳转到主页
-        router.push('/mainlayout/topicList')
+        router.push('/topicList')
       }
     } catch (e) {
       console.log(e)

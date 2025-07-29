@@ -1,15 +1,15 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter,createWebHashHistory} from 'vue-router'
 import { setupRouterGuards } from '@/router/guards.ts'
 // login
 import { loginRoutes } from '@/modules/loginAndLogout/router/index.js'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history:createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/mainlayout',
+      path: '/',
       component: () => import('@/modules/layout/pages/MainLayout.vue'),
-      redirect: '/mainlayout/createTopic',
+      redirect: '/createTopic',
       children: [
         {
           path: 'createTopic',

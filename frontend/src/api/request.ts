@@ -4,7 +4,8 @@ import axios from 'axios'
 import { authUtils } from '@/utils/auth.ts'
 
 export const request = axios.create({
-  baseURL: 'http://localhost:7001',
+  baseURL: 'http://1.92.114.63:7001',
+  // baseURL: 'http://localhost:7001',
   timeout: 5000,
   withCredentials: true,
   headers: {
