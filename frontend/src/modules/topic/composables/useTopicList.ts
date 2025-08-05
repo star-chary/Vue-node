@@ -16,10 +16,7 @@ export const useTopicList = () => {
       label: '内容',
       prop: 'content',
     },
-    {
-      label: '回复数',
-      prop: 'reply_count',
-    },
+
     {
       label: '操作',
       prop: 'action',
@@ -68,7 +65,7 @@ export const useTopicList = () => {
   const handleView = async (row: Row) => {
     try {
       ElMessage.success('查看成功')
-      router.push(`/mainlayout/topicDetail/${row._id}`)
+      router.push(`/topicDetail/${row._id}`)
     } catch (e) {
       console.log(e)
     }

@@ -26,6 +26,7 @@ const props = defineProps({
 })
 
 const base_img_url = 'http://localhost:7001'
+// const base_img_url = 'http://1.92.114.63:7001'
 const url = computed(() => {
   return `${base_img_url}${props.cover_img}`
 })

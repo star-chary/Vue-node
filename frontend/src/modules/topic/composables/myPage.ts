@@ -56,12 +56,10 @@ export const useMyPage = () => {
     total.value = res.data.data.total
   }
   const handleSizeChange = async (size: number) => {
-    console.log(size, 888)
     page.pageSize = size
     await handleGetList()
   }
   const handleCurrentChange = async (currentPage: number) => {
-    console.log(currentPage, 999)
     page.page = currentPage
     await handleGetList()
   }
@@ -80,7 +78,6 @@ export const useMyPage = () => {
     try {
       const res = await api.topic.deleteTopic({ id: row._id })
       ElMessage.success('删除成功')
-      console.log(res, 7777)
       await handleGetList()
     } catch (e) {
       console.log(e)

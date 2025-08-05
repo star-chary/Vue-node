@@ -54,7 +54,7 @@ const {
                 >
               </template>
               <template v-else-if="item.prop === 'content'" #default="escope">
-                <div class="content-cell">{{ escope.row.content }}2</div>
+                <div class="content-cell">{{ escope.row.content }}</div>
               </template>
             </el-table-column>
           </el-table>
