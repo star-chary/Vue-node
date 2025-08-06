@@ -25,11 +25,13 @@ const props = defineProps({
   },
 })
 
-const base_img_url = 'http://localhost:7001'
+// const base_img_url = 'http://localhost:7001'
 // const base_img_url = 'http://1.92.114.63:7001'
+const base_img_url = import.meta.env.VITE_API_BASE_URL
 const url = computed(() => {
   return `${base_img_url}${props.cover_img}`
 })
+console.log(import.meta.env.VUE_APP_API_BASE_URL,99)
 
 // 计算卡片图片区域的高度
 const cardWidth = 260 // 固定卡片宽度
@@ -45,14 +47,15 @@ const calculateImageHeight = computed(() => {
 
 <template>
   <div class="card-box">
-    <div class="avatar" :style="{ height: `${calculateImageHeight}px` }">
+    <div class="defaultImage" :style="{ height: `${calculateImageHeight}px` }">
       <img :src="url" alt="" />
     </div>
     <div class="title">{{ title }}</div>
     <div class="user-info">
       <div class="user-avatar-name">
-        <div>
-          <el-avatar :src="cover_img" />
+        <!--    用户头像-->
+        <div class="user-avatar" style="cursor: pointer">
+          <el-avatar :src="url" />
         </div>
         <div class="user-name">{{ username }}</div>
       </div>
@@ -65,15 +68,15 @@ const calculateImageHeight = computed(() => {
 
 <style scoped lang="scss">
 .card-box {
-  width: 260px;
+  width: 100%;
   height: auto;
-  background: gray;
+  background: #fff;
   border-radius: 10px;
   @include flex-column;
   margin-bottom: 16px;
 }
 
-.avatar {
+.defaultImage {
   width: 100%;
   border-radius: 10px;
   overflow: hidden;
