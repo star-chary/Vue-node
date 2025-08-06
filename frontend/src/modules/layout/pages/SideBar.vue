@@ -5,22 +5,22 @@ const route = useRoute()
 </script>
 
 <template>
-  <el-menu router :default-active="route.path" class="el-menu-vertical-demo">
-    <el-menu-item index="/mainlayout/createTopic">
+  <el-menu router default-active="/topicList" class="el-menu-vertical-demo">
+    <el-menu-item index="/createTopic">
       <span>新建主题</span>
     </el-menu-item>
-    <el-menu-item index="/mainlayout/topicList"> <span>主题列表(table 类型)</span> </el-menu-item
-    ><el-menu-item index="/mainlayout/topicList_Card">
+    <el-menu-item index="/topicList"> <span>主题列表(table22222 类型)</span> </el-menu-item
+    ><el-menu-item index="/topicList_Card">
       <span>主题列表(Card 类型)</span>
     </el-menu-item>
-    <el-menu-item index="/mainlayout/topicDetail">
+    <el-menu-item index="/topicDetail">
       <span>主题详情</span>
     </el-menu-item>
-    <el-menu-item index="/mainlayout/modifyTopic">
+    <el-menu-item index="/modifyTopic">
       <span>修改主题</span>
     </el-menu-item>
-    <el-menu-item index="/mainlayout/myPage">我的</el-menu-item>
-    <el-menu-item index="/mainlayout/logout">
+    <el-menu-item index="/myPage">我的</el-menu-item>
+    <el-menu-item index="/logout">
       <span>退出登录</span>
     </el-menu-item>
   </el-menu>

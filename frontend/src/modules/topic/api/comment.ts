@@ -18,4 +18,12 @@ export const commentApi = {
       data,
     })
   },
+  // 测试ai
+  testAi: (data:object) => {
+    return request({
+      url: '/chatAi',
+      method: 'post',
+      data
+    })
+  },
 }

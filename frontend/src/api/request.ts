@@ -4,8 +4,11 @@ import axios from 'axios'
 import { authUtils } from '@/utils/auth.ts'
 
 export const request = axios.create({
-  baseURL: 'http://localhost:7001',
-  timeout: 5000,
+  // baseURL: 'http://1.92.114.63:7001',
+  // baseURL: 'http://localhost:7001',
+  // 使用环境变量中的 baseURL
+  baseURL:import.meta.env.VITE_API_BASE_URL as string,
+  timeout: 50000,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',

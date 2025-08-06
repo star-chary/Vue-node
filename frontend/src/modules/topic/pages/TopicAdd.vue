@@ -12,6 +12,7 @@ const {
   handlePictureCardPreview,
   handleRemove,
   uploadRef,
+  isSubmitting
 } = useCreateTopic()
 </script>
 
@@ -50,7 +51,7 @@ const {
       style="display: block; width: 400px; margin: 0 auto"
       @click="createTopic(fileList)"
       type="primary"
-      >提交</el-button
+      >{{ isSubmitting ? '提交中...' : '提交'}}</el-button
     >
   </div>
 </template>

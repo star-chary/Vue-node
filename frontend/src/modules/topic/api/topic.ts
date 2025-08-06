@@ -13,19 +13,8 @@ export const topicApi = {
       },
     })
   },
-
-  // createTopicFile: (data?:FormData) => {
-  //   return request({
-  //     url: '/topicFiles',
-  //     method: 'post',
-  //     data,
-  //     headers: {
-  //       'Content-Type': 'multipart/form-data'
-  //     }
-  //   })
-  // },
   // 获取列表
-  getTopicList: (data?: object) => {
+  getTopicList: (data?:Page) => {
     return request({
       url: '/list',
       method: 'post',

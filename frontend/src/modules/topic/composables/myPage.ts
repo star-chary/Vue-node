@@ -56,12 +56,10 @@ export const useMyPage = () => {
     total.value = res.data.data.total
   }
   const handleSizeChange = async (size: number) => {
-    console.log(size, 888)
     page.pageSize = size
     await handleGetList()
   }
   const handleCurrentChange = async (currentPage: number) => {
-    console.log(currentPage, 999)
     page.page = currentPage
     await handleGetList()
   }
@@ -70,7 +68,7 @@ export const useMyPage = () => {
   const handleView = async (row: Row) => {
     try {
       ElMessage.success('查看成功')
-      router.push(`/mainlayout/topicDetail/${row._id}`)
+      router.push(`/topicDetail/${row._id}`)
     } catch (e) {
       console.log(e)
     }
@@ -80,7 +78,6 @@ export const useMyPage = () => {
     try {
       const res = await api.topic.deleteTopic({ id: row._id })
       ElMessage.success('删除成功')
-      console.log(res, 7777)
       await handleGetList()
     } catch (e) {
       console.log(e)
@@ -93,7 +90,7 @@ export const useMyPage = () => {
     // 设置表单数据
     initFormForEdit({ title: row.title, content: row.content })
     // 跳转到编辑页面
-    router.push(`/mainlayout/modifyTopic/${row._id}`)
+    router.push(`/modifyTopic/${row._id}`)
   }
 
   // 操作处理

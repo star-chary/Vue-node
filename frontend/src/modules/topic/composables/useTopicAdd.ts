@@ -41,10 +41,17 @@ export const useCreateTopic = () => {
     dialogImageUrl.value = uploadFile.url!
     dialogVisible.value = true
   }
-  const createTopic = async (fileList: UploadUserFile[]) => {
+  // 请勿重复提交
+  const isSubmitting = ref(false)
+  const createTopic = async (uploadedFiles: UploadUserFile[]) => {
+    if (isSubmitting.value) {
+      ElMessage.warning('正在提交中，请勿重复点击')
+      return
+    }
     try {
+      isSubmitting.value = true
       // 如果没有上传图片
-      if (fileList.length === 0) {
+      if (uploadedFiles.length === 0) {
         ElMessage.error('请上传图片')
         return
       }
@@ -59,13 +66,13 @@ export const useCreateTopic = () => {
         }
         const userInfo = JSON.parse(userInfoStr)
         const id = userInfo.id
-
+        // 新建 formData 表单数据
         const formData = new FormData()
         formData.append('title', form.value.title)
         formData.append('content', form.value.content)
-        for (const file of fileList) {
+        for (const file of uploadedFiles) {
           // 如果有文件
-          if (fileList.length > 0) {
+          if (uploadedFiles.length > 0) {
             formData.append('files', file.raw)
           }
           // 如果没有文件
@@ -81,6 +88,7 @@ export const useCreateTopic = () => {
         if (res.data.code === 200 || res.status === 200) {
           ElMessage.success('创建成功')
           uploadRef.value?.clearFiles() // ✅ 清除 el-upload 内部缓存
+          fileList.value = []
         }
       }
 
@@ -89,6 +97,8 @@ export const useCreateTopic = () => {
       // handleRemove()
     } catch (e) {
       console.log(e)
+    }finally {
+      isSubmitting.value = false
     }
   }
 
@@ -100,6 +110,7 @@ export const useCreateTopic = () => {
     dialogImageUrl,
     dialogVisible,
     uploadRef,
+    isSubmitting,
     createTopic,
     handleRemove,
     handlePictureCardPreview,
