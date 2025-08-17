@@ -1,10 +1,10 @@
-import { createRouter,createWebHashHistory} from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { setupRouterGuards } from '@/router/guards.ts'
 // login
 import { loginRoutes } from '@/modules/loginAndLogout/router/index.js'
 
 const router = createRouter({
-  history:createWebHashHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -46,6 +46,15 @@ const router = createRouter({
           name: 'topicList_card',
           component: () => import('@/modules/topic/pages/TopicList_Card.vue'),
         },
+        {
+          path: 'chat',
+          name: 'chat',
+          component: () => import('@/modules/chat/pages/ChatMsg.vue'),
+        },{
+        path:'topicListCard',
+        name:'topicListCard',
+        component:()=>import('@/modules/topic/pages/TopicListCard.vue')
+        }
       ],
     },
     ...loginRoutes,

@@ -5,13 +5,13 @@ const route = useRoute()
 </script>
 
 <template>
-  <el-menu router default-active="/topicList" class="el-menu-vertical-demo">
+  <el-menu router :default-active="route.path" class="el-menu-vertical-demo">
     <el-menu-item index="/createTopic">
       <span>新建主题</span>
     </el-menu-item>
-    <el-menu-item index="/topicList"> <span>主题列表(table22222 类型)</span> </el-menu-item
-    ><el-menu-item index="/topicList_Card">
-      <span>主题列表(Card 类型)</span>
+    <el-menu-item index="/topicList"> <span>主题列表(table 类型)</span> </el-menu-item>
+    <el-menu-item index="/topicListCard">
+      <span>主题列表(card 类型)</span>
     </el-menu-item>
     <el-menu-item index="/topicDetail">
       <span>主题详情</span>
@@ -19,6 +19,7 @@ const route = useRoute()
     <el-menu-item index="/modifyTopic">
       <span>修改主题</span>
     </el-menu-item>
+    <el-menu-item index="/chat">消息</el-menu-item>
     <el-menu-item index="/myPage">我的</el-menu-item>
     <el-menu-item index="/logout">
       <span>退出登录</span>

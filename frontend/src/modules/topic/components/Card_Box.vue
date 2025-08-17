@@ -31,7 +31,6 @@ const base_img_url = import.meta.env.VITE_API_BASE_URL
 const url = computed(() => {
   return `${base_img_url}${props.cover_img}`
 })
-console.log(import.meta.env.VUE_APP_API_BASE_URL,99)
 
 // 计算卡片图片区域的高度
 const cardWidth = 260 // 固定卡片宽度
@@ -68,12 +67,10 @@ const calculateImageHeight = computed(() => {
 
 <style scoped lang="scss">
 .card-box {
-  width: 100%;
-  height: auto;
+  width: 100px;
   background: #fff;
   border-radius: 10px;
   @include flex-column;
-  margin-bottom: 16px;
 }
 
 .defaultImage {
