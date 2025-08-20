@@ -16,14 +16,15 @@ export const userLogin = () => {
 
   // 用户名和密码
   const loginForm = reactive<LoginForm>({
-    username: '',
-    password: '',
+    username: 'admin',
+    password: '123456',
   })
 
   // 控制登录/注册的显示与隐藏
   const loginOrRegister = ref('login')
   const loginOrRegisterFn = (data: string) => {
     loginOrRegister.value = data
+    clearFn()
   }
 
   const clearFn = () => {

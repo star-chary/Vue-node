@@ -47,7 +47,7 @@ const calculateImageHeight = computed(() => {
 <template>
   <div class="card-box">
     <div class="defaultImage" :style="{ height: `${calculateImageHeight}px` }">
-      <img :src="url" alt="" />
+      <img :src="url ? url : ''" alt="" />
     </div>
     <div class="title">{{ title }}</div>
     <div class="user-info">
@@ -71,6 +71,7 @@ const calculateImageHeight = computed(() => {
   background: #fff;
   border-radius: 10px;
   @include flex-column;
+  border: 1px solid rgba(128, 128, 128, 0.38);
 }
 
 .defaultImage {

@@ -200,40 +200,110 @@
 
 <!--- vue3-masonry-wall 库版-->
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import Loading from '@/components/Loading.vue'
+
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import api from '@/api'
 import Card_Box from '@/modules/topic/components/Card_Box.vue'
 import MasonryWall from '@yeger/vue-masonry-wall'
+import { debounce } from '@/utils/debounce.ts'
 
 const photos = ref<any[]>([])
 
-const fetchArticleList = async () => {
+let page = 1
+let pageSize = 10
+const loading = ref(false)
+const finish = ref(false)
+const scrollContainer = ref<HTMLElement | null>(null)
+
+// 追加数据时：记录并恢复滚动位置
+const fetchArticleList = async (params?: object) => {
+  if (loading.value || finish.value) return
+  loading.value = true
   try {
-    const res = await api.topic.getTopicList()
-    photos.value = res.data.data.list
+    const el = scrollContainer.value
+    const prevScrollTop = el?.scrollTop ?? 0
+
+    const res = await api.topic.getTopicList(params)
+    const list = res.data?.data?.list ?? []
+
+    // 可选：如果后端没有更多了，设置 finish
+    if (!Array.isArray(list) || list.length === 0) {
+      finish.value = true
+      loading.value = false
+      return
+    }
+
+    // 关键：用新数组引用，避免组件内部侦测不到变更
+    photos.value = [...photos.value, ...list]
+
+    // 等待 DOM 和瀑布流重排完成，然后恢复滚动位置
+    await nextTick()
+    if (el) {
+      el.scrollTop = prevScrollTop
+      // 如果还有图片加载导致后续高度变化，可再多等一帧
+      requestAnimationFrame(() => {
+        el.scrollTop = prevScrollTop
+      })
+    }
   } catch (error) {
     console.error('Error fetching article list:', error)
+  } finally {
+    loading.value = false
   }
 }
 
+const handleScroll = debounce(() => {
+  const el = scrollContainer.value
+  if (!el || loading.value || finish.value) return
+  const { scrollTop, clientHeight, scrollHeight } = el
+  if (scrollTop + clientHeight >= scrollHeight - 10) {
+    page += 1
+    fetchArticleList({ page, pageSize })
+  }
+}, 200)
+
 onMounted(async () => {
-  await fetchArticleList()
+  await fetchArticleList({ page, pageSize })
+  scrollContainer.value?.addEventListener('scroll', handleScroll, { passive: true })
+})
+
+onUnmounted(() => {
+  scrollContainer.value?.removeEventListener('scroll', handleScroll)
 })
 </script>
 
 <template>
-  <MasonryWall :items="photos" :column-width="240" :gap="12" :rtl="false">
-    <template #default="{ item: p, index: i }">
-      <Card_Box
-        :cover_img="p.cover_image.url"
-        :title="p.title"
-        :username="p.author_name"
-        :image-height="p.cover_image.height"
-        :image-width="p.cover_image.width"
-        :content="p.content"
-        style="width: 100%"
-      />
-    </template>
-  </MasonryWall>
+  <div class="water-box" ref="scrollContainer">
+    <MasonryWall
+      :items="photos"
+      :item-key="'id'"
+      :column-width="240"
+      :gap="16"
+      :rtl="false"
+    >
+      <template #default="{ item: p }">
+        <Card_Box
+          :cover_img="p.cover_image?.url ?? ''"
+          :title="p.title ?? '默认标题'"
+          :username="p.author_name ?? '默认用户名'"
+          :image-height="p.cover_image?.height ?? 260"
+          :image-width="p.cover_image?.width ?? 260"
+          style="width: 100%"
+        />
+      </template>
+    </MasonryWall>
+    <Loading v-if="loading"></Loading>
+    <div v-if="finish" style="text-align: center; padding: 10px">没有更多了...</div>
+  </div>
 </template>
-<style scoped lang="scss"></style>
+
+<style scoped lang="scss">
+.water-box {
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+</style>

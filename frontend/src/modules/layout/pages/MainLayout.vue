@@ -23,11 +23,13 @@ import SideBar from '@/modules/layout/pages/SideBar.vue'
 .sideBar {
   width: 200px;
   background-color: white;
+  overflow: hidden;
 }
 
 .rightBar {
-  flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 </style>

@@ -42,19 +42,10 @@ const router = createRouter({
           component: () => import('@/modules/topic/pages/MyPage.vue'),
         },
         {
-          path: 'topicList_card',
-          name: 'topicList_card',
-          component: () => import('@/modules/topic/pages/TopicList_Card.vue'),
+          path: 'topicListCard',
+          name: 'topicListCard',
+          component: () => import('@/modules/topic/pages/TopicListCard.vue'),
         },
-        {
-          path: 'chat',
-          name: 'chat',
-          component: () => import('@/modules/chat/pages/ChatMsg.vue'),
-        },{
-        path:'topicListCard',
-        name:'topicListCard',
-        component:()=>import('@/modules/topic/pages/TopicListCard.vue')
-        }
       ],
     },
     ...loginRoutes,
