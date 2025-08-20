@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Magnetic from '@/components/Magnetic.vue'
 import UserLogin from '@/modules/loginAndLogout/components/UserLogin.vue'
 import UserRegister from '@/modules/loginAndLogout/components/UserRegister.vue'
 import { userLogin } from '@/modules/loginAndLogout/composables/userLogin'
@@ -21,6 +22,7 @@ const handleSwitch = (data: string) => {
 </script>
 
 <template>
+  <Magnetic></Magnetic>
   <div class="login-page" :class="{ 'register-mode': loginOrRegister === 'register' }">
     <div class="login-container">
       <div style="display: flex; flex-direction: column">
@@ -76,7 +78,7 @@ $transition-duration: 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
-  background:$login-gradient;
+  background: $login-gradient;
   transition: background $transition-duration ease-in-out;
   padding: 1rem;
   box-sizing: border-box;
@@ -85,7 +87,6 @@ $transition-duration: 0.3s;
   .register-mode & {
     background: $register-gradient;
   }
-
 }
 
 .login-content {
