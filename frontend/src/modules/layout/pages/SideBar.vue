@@ -19,6 +19,9 @@ const route = useRoute()
     <el-menu-item index="/modifyTopic">
       <span>修改主题</span>
     </el-menu-item>
+    <el-menu-item index="/logger">
+      <span>日志</span>
+    </el-menu-item>
     <el-menu-item index="/myPage">我的</el-menu-item>
     <el-menu-item index="/logout">
       <span>退出登录</span>
