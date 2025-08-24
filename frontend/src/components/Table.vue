@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { formatTime } from '@/utils/format.ts'
+import { formatISOTime } from '@/utils/format.ts'
+import * as timers from 'node:timers'
 interface Columns {
   ip: String
   location: {
@@ -20,7 +21,28 @@ const props = defineProps({
   data: Array,
 })
 
-const time = 'time'
+const columns = ref([
+  {
+    label: 'ip',
+    prop: 'ip',
+  },
+  {
+    label: '省份',
+    prop: 'location.province',
+  },
+  {
+    label: '城市',
+    prop: 'location.city',
+  },
+  {
+    label: '地区',
+    prop: 'location.district',
+  },
+  {
+    label: '时间',
+    prop: 'time',
+  },
+])
 </script>
 <template>
   <div class="logger-box">
@@ -29,10 +51,17 @@ const time = 'time'
     </div>
     <div class="table-box">
       <el-table :data="data" height="100%" style="width: 100%">
-        <el-table-column prop="ip" label="ip" width="180" />
-        <el-table-column prop="location.province" label="省份" width="0" />
-        <el-table-column prop="location.city" label="城市" width="0" />
-        <el-table-column prop="location.district" label="地区" width="0" />
+        <el-table-column
+          v-for="(item, index) in columns"
+          :key="index"
+          :prop="item.prop"
+          :label="item.label"
+          :show-overflow-tooltip="item.prop === 'content'"
+        >
+          <template v-if="item.prop === 'time'" #default="escope">
+            {{ formatISOTime(escope.row.time) }}
+          </template>
+        </el-table-column>
       </el-table>
       <!--      <el-pagination-->
       <!--        style="margin-left: auto; padding: 16px 0"-->
@@ -63,7 +92,7 @@ const time = 'time'
 
 .slot-box {
   width: 100%;
-  height: 50vh;
+  height: 30vh;
   background-color: white;
   margin-bottom: 16px;
 }
@@ -71,7 +100,7 @@ const time = 'time'
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 50vh;
+  height: 70vh;
   background-color: white;
   overflow: auto;
 }

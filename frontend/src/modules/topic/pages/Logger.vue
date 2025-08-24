@@ -10,6 +10,7 @@ const testApi = async () => {
   const res = await api.topic.getLogs({ page: page.value, pageSize: pageSize.value,all:true })
   data.value = res.data.data
   total.value = res.data.total
+  console.log(res)
 }
 onMounted(async () => {
   await testApi()
