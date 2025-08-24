@@ -4,7 +4,7 @@ class LogService extends Service {
   async getLogs({ page = 1, pageSize = 10, all }) {
     const { ctx } = this;
     if (all) {
-      const data = await ctx.model.Log.find();
+      const data = await ctx.model.Log.find().sort({ time: -1 });
       return {
         total: data.length,
         data,
