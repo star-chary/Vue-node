@@ -42,7 +42,7 @@ const router = createRouter({
           component: () => import('@/modules/topic/pages/MyPage.vue'),
         },
         {
-          path: 'topicListCard',
+          path: 'topicListCard/:id?',
           name: 'topicListCard',
           component: () => import('@/modules/topic/pages/TopicListCard.vue'),
         },
