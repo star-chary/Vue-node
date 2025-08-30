@@ -51,7 +51,7 @@ export const userLogin = () => {
       }
     } catch (e) {
       console.log(e)
-    }finally {
+    } finally {
       loading.value = false
     }
     // 清空账号密码
@@ -59,9 +59,11 @@ export const userLogin = () => {
   }
 
   // 点击注册
+  const loadingRegister = ref(false)
   const handleRegister = async (data: LoginForm) => {
     try {
-      const res = await api.user.registerUser({
+      loadingRegister.value = true
+      await api.user.registerUser({
         username: loginForm.username,
         password: loginForm.password,
       })
@@ -83,6 +85,7 @@ export const userLogin = () => {
     handleLogin,
     loginForm,
     loginOrRegister,
+    loadingRegister,
     loading,
     handleRegister,
     loginOrRegisterFn,

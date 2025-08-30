@@ -7,6 +7,10 @@ const props = defineProps({
       password: '',
     }),
   },
+  loadingRegister: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['handleRegister','onSwitch'])
@@ -39,7 +43,7 @@ const onSwitch = () => {
         />
       </el-form-item>
     </el-form>
-    <el-button style="width: 100%" type="primary" @click="onRegister">注册</el-button>
+    <el-button style="width: 100%" type="primary" @click="onRegister" :disabled="loadingRegister">{{ loadingRegister ? '注册中...' : '注册'}}</el-button>
     <div
       @click="onSwitch"
       style="margin-top: 1rem; font-size: 0.6rem; color: gray; cursor: pointer"
