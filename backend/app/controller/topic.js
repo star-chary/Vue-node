@@ -75,7 +75,9 @@ class TopicController extends Controller {
           const stats = await fs.promises.stat(finalPath); // ✅ 使用 promises 版本
 
           images.push({
-            url: `/public/uploads/${dayjs()
+            // url: `/public/uploads/${dayjs()
+            //   .format('YYYY-MM-DD')}/${filename}`,
+            url: `/uploads/${dayjs()
               .format('YYYY-MM-DD')}/${filename}`,
             width: metadada.width || 0,
             height: metadada.height || 0,
@@ -243,13 +245,13 @@ class TopicController extends Controller {
         return;
       }
 
-      const detail = await ctx.service.topic.getDetail(id);
-      if (detail) {
+      const data = await ctx.service.topic.getDetail(id);
+      if (data) {
         ctx.status = 200;
         ctx.body = {
-          code: 200, msg: '详情获取成功', data: {
-            list: detail,
-          },
+          code: 200,
+          msg: '详情获取成功',
+          data,
         };
       }
     } catch (error) {

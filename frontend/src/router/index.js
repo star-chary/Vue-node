@@ -1,15 +1,15 @@
-import { createRouter,createWebHashHistory} from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { setupRouterGuards } from '@/router/guards.ts'
 // login
 import { loginRoutes } from '@/modules/loginAndLogout/router/index.js'
 
 const router = createRouter({
-  history:createWebHashHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       component: () => import('@/modules/layout/pages/MainLayout.vue'),
-      redirect: '/createTopic',
+      redirect: '/topicListCard',
       children: [
         {
           path: 'createTopic',
@@ -42,9 +42,14 @@ const router = createRouter({
           component: () => import('@/modules/topic/pages/MyPage.vue'),
         },
         {
-          path: 'topicList_card',
-          name: 'topicList_card',
-          component: () => import('@/modules/topic/pages/TopicList_Card.vue'),
+          path: 'topicListCard/:id?',
+          name: 'topicListCard',
+          component: () => import('@/modules/topic/pages/TopicListCard.vue'),
+        },
+        {
+          path: 'logger',
+          name: 'logger',
+          component: () => import('@/modules/topic/pages/Logger.vue'),
         },
       ],
     },

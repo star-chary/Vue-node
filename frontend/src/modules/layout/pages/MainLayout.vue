@@ -18,16 +18,18 @@ import SideBar from '@/modules/layout/pages/SideBar.vue'
   width: 100%;
   height: 100vh;
   display: flex;
-  flex-direction: row;
 }
 
 .sideBar {
   width: 200px;
-  height: 100%;
   background-color: white;
+  overflow: hidden;
 }
 
 .rightBar {
-  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 </style>

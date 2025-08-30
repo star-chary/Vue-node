@@ -7,6 +7,10 @@ const props = defineProps({
       password: '',
     }),
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['handleLogin','onSwitch'])
@@ -44,7 +48,7 @@ const onSwitch = () => {
         />
       </el-form-item>
     </el-form>
-    <el-button style="width: 100%" type="primary" @click="handleLogin">登录</el-button>
+    <el-button style="width: 100%" type="primary" @click="handleLogin" :disabled="loading">{{ loading ? '登陆中...' : '登录'}}</el-button>
     <div @click="onSwitch" style="margin-top: 1rem; font-size: 0.6rem; color: gray; cursor: pointer">
       没有账号？点击注册
     </div>

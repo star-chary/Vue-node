@@ -16,14 +16,15 @@ export const userLogin = () => {
 
   // 用户名和密码
   const loginForm = reactive<LoginForm>({
-    username: '',
-    password: '',
+    username: 'admin',
+    password: '123456',
   })
 
   // 控制登录/注册的显示与隐藏
   const loginOrRegister = ref('login')
   const loginOrRegisterFn = (data: string) => {
     loginOrRegister.value = data
+    clearFn()
   }
 
   const clearFn = () => {
@@ -32,23 +33,26 @@ export const userLogin = () => {
   }
 
   // 登录
+  const loading = ref(false)
   const handleLogin = async (loginData: LoginForm) => {
     try {
+      loading.value = true
       const res = await api.user.loginUser({
         username: loginData.username,
         password: loginData.password,
       })
-      console.log(res, 66666)
       if (res.data.code === 200) {
         // 将 接收到的 token 存入本地
         authUtils.setToken(res.data.data.token)
         // 将用户信息存入本地
         authUtils.setUserInfo('userInfo', JSON.stringify(res.data.data.userInfo))
         // 跳转到主页
-        router.push('/topicList')
+        router.push('/topicListCard')
       }
     } catch (e) {
       console.log(e)
+    }finally {
+      loading.value = false
     }
     // 清空账号密码
     clearFn()
@@ -79,6 +83,7 @@ export const userLogin = () => {
     handleLogin,
     loginForm,
     loginOrRegister,
+    loading,
     handleRegister,
     loginOrRegisterFn,
     handleLogout,

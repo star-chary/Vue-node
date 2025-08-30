@@ -65,7 +65,7 @@ const {
   box-sizing: border-box;
 }
 
-.avatar-uploader .avatar {
+.avatar-uploader .defaultImage {
   width: 178px;
   height: 178px;
   display: block;

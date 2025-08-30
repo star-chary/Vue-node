@@ -1,11 +1,11 @@
 import { request } from '@/api/request.ts'
 import type { Page } from '@/modules/topic/types/topic'
-
+const API_V = '/api/v1'
 export const topicApi = {
   // 新建话题
   createTopic: (data?: FormData) => {
     return request({
-      url: '/topic',
+      url: API_V + '/topic',
       method: 'post',
       data,
       headers: {
@@ -14,9 +14,9 @@ export const topicApi = {
     })
   },
   // 获取列表
-  getTopicList: (data?:Page) => {
+  getTopicList: (data?: Page) => {
     return request({
-      url: '/list',
+      url: API_V + '/topics',
       method: 'post',
       data,
     })
@@ -50,6 +50,14 @@ export const topicApi = {
       url: '/myTopic',
       method: 'post',
       data,
+    })
+  },
+  // 获取日志
+  getLogs: (params?: object) => {
+    return request({
+      url: API_V + '/logs',
+      method: 'get',
+      params,
     })
   },
 }

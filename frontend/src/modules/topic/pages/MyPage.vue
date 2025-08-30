@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { authUtils } from '@/utils/auth.ts'
 import { useMyPage } from '@/modules/topic/composables/myPage.ts'
+import * as process from 'node:process'
 
 const { tableHead, topicData, handleAction, page, handleCurrentChange, handleSizeChange, total } =
   useMyPage()
+
 </script>
 <template>
   <div class="myPage-container">

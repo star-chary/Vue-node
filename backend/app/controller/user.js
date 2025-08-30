@@ -67,6 +67,11 @@ class UserController extends Controller {
     };
   }
 
+  async ping() {
+    const { ctx } = this;
+    ctx.body = 'pong';
+  }
+
 }
 
 module.exports = UserController;
