@@ -9,7 +9,7 @@ const router = createRouter({
     {
       path: '/',
       component: () => import('@/modules/layout/pages/MainLayout.vue'),
-      redirect: '/createTopic',
+      redirect: '/topicListCard',
       children: [
         {
           path: 'createTopic',

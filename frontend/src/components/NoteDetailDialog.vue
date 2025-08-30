@@ -33,6 +33,16 @@ const detailClose = (e?: KeyboardEvent | MouseEvent) => {
 }
 
 const base_img_url = import.meta.env.VITE_API_BASE_URL
+function imgSrc(path: string) {
+  try {
+    // 兼容 path 以 / 开头或不以 / 开头，base 末尾有/或无/ 的情况
+    return new URL(path, base_img_url).toString()
+  } catch (e) {
+    console.warn('构造图片 URL 失败:', { base_img_url, path, e })
+    return path
+  }
+}
+
 onMounted(() => {
   window.addEventListener('keydown', detailClose)
 })
@@ -62,7 +72,7 @@ onUnmounted(() => {
             >
               <el-carousel-item v-for="item in detailData.images" :key="item._id">
                 <div class="carousel-item">
-                  <img :src="base_img_url + item.url" alt="" class="carousel-img" />
+                  <img :src="imgSrc(item.url)" alt="" class="carousel-img" />
                 </div>
               </el-carousel-item>
             </el-carousel>
@@ -77,8 +87,13 @@ onUnmounted(() => {
             <div class="follow">关注</div>
           </div>
           <div class="right-scroll">
-            <div class="detail-body" style="display: flex; flex-direction: column;padding: 10px 0 ">
-              <div class="content-title" style="font-weight: bold;font-size: 18px ;margin-bottom: 4px;">{{ detailData.title }}</div>
+            <div class="detail-body" style="display: flex; flex-direction: column; padding: 10px 0">
+              <div
+                class="content-title"
+                style="font-weight: bold; font-size: 18px; margin-bottom: 4px"
+              >
+                {{ detailData.title }}
+              </div>
               <div class="content-text">{{ detailData.content }}</div>
             </div>
             <div class="comment-box">开发中...</div>
@@ -174,7 +189,6 @@ onUnmounted(() => {
     flex-direction: column;
     --sendbar-h: 60px;
 
-
     .user-info {
       display: flex;
       justify-content: space-between;
@@ -215,7 +229,6 @@ onUnmounted(() => {
       -ms-overflow-style: none; /* IE/Edge legacy */
       -webkit-overflow-scrolling: touch; /* iOS 惯性滚动（可选） */
       padding-bottom: var(--sendbar-h);
-
     }
     .right-scroll::-webkit-scrollbar {
       /* Chrome/Safari/Edge */
@@ -237,18 +250,15 @@ onUnmounted(() => {
       flex: 0 0 var(--sendbar-h);
       height: var(--sendbar-h);
       width: 100%;
-      background: red; /* 这里改成你的输入栏样式 */
-      box-shadow: 0 -4px 12px rgba(0,0,0,0.06);
+      background: white; /* 这里改成你的输入栏样式 */
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.06);
       /* iOS 底部安全区（全面屏可选） */
       padding-bottom: env(safe-area-inset-bottom);
       box-sizing: border-box;
       /* 如果需要内部布局，建议用 display:flex; align-items:center; */
       display: flex;
       align-items: center;
-      padding-left: 12px;
-      padding-right: 12px;
     }
-
   }
 }
 </style>

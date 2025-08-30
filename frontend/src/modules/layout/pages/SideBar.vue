@@ -11,28 +11,35 @@ const activeIndex = computed(() => String(route.name ?? ''))
 <template>
   <el-menu router :default-active="activeIndex" class="el-menu-vertical-demo">
     <el-menu-item index="createTopic" :route="{ name: 'createTopic' }">
-      <span>新建主题</span>
+      <el-icon><Plus /></el-icon>
+      <span>发布</span>
     </el-menu-item>
     <el-menu-item index="topicList" :route="{ name: 'topicList' }">
-      <span>主题列表(table 类型)</span>
+      <el-icon><House /></el-icon>
+      <span>发现（table）</span>
     </el-menu-item>
     <el-menu-item index="topicListCard" :route="{ name: 'topicListCard' }">
-      <span>主题列表(card 类型)</span>
+      <el-icon><House /></el-icon>
+      <span>发现</span>
     </el-menu-item>
-    <el-menu-item index="topicDetail" :route="{ name: 'topicDetail' }">
-      <span>主题详情</span>
-    </el-menu-item>
+<!--    <el-menu-item index="topicDetail" :route="{ name: 'topicDetail' }">-->
+<!--      <span>主题详情</span>-->
+<!--    </el-menu-item>-->
     <el-menu-item index="modifyTopic" :route="{ name: 'modifyTopic' }">
-      <span>修改主题</span>
+      <el-icon><EditPen /></el-icon>
+      <span>修改</span>
     </el-menu-item>
     <el-menu-item index="logger" :route="{ name: 'logger' }">
+      <el-icon><Memo /></el-icon>
       <span>日志</span>
     </el-menu-item>
     <el-menu-item index="myPage" :route="{ name: 'myPage' }">
-      我的
+      <el-icon><User /></el-icon>
+      我
     </el-menu-item>
     <el-menu-item index="logout" :route="{ name: 'logout' }">
-      <span>退出登录</span>
+      <el-icon><Close /></el-icon>
+      <span>退出</span>
     </el-menu-item>
   </el-menu>
 </template>
