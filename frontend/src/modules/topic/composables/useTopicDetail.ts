@@ -18,7 +18,7 @@ export const useTopicDetail = () => {
   const topicDetailFn = async () => {
     const id = route.params.id || ''
     const res = await api.topic.getTopicDetail(route.params.id)
-    topicDetailData.value = res.data.data.list
+    topicDetailData.value = res.data.data
   }
 
   // 获取文章评论
@@ -27,8 +27,7 @@ export const useTopicDetail = () => {
     const res = await api.comment.getComment({
       topic_id: route.params.id,
     })
-    commentList.value = res.data.data.list
-    console.log(res, 1111)
+    commentList.value = res.data.data
   }
 
   // 发表评论

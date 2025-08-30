@@ -200,21 +200,43 @@
 
 <!--- vue3-masonry-wall 库版-->
 <script setup lang="ts">
-import Loading from '@/components/Loading.vue'
-
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
-import api from '@/api'
-import Card_Box from '@/modules/topic/components/Card_Box.vue'
+import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 import MasonryWall from '@yeger/vue-masonry-wall'
+import api from '@/api'
 import { debounce } from '@/utils/debounce.ts'
+import Loading from '@/components/Loading.vue'
+import Card_Box from '@/modules/topic/components/Card_Box.vue'
+import NoteDetailDialog from '@/components/NoteDetailDialog.vue'
 
+const router = useRouter()
 const photos = ref<any[]>([])
-
 let page = 1
 let pageSize = 10
 const loading = ref(false)
 const finish = ref(false)
 const scrollContainer = ref<HTMLElement | null>(null)
+
+// 详情弹层状态
+const showDetail = ref(false)
+const activeId = ref<string>('')
+// 详情
+const detailData = ref<any>({})
+const openDetail = async (id: string) => {
+  activeId.value = id
+  showDetail.value = true
+  // 可选：锁定背景滚动
+  document.body.style.overflow = 'hidden'
+  const res = await api.topic.getTopicDetail(id)
+  detailData.value = res.data.data
+  console.log(res,'de')
+}
+
+const closeDetail = () => {
+  router.push({ path: 'topicListCard' })
+  showDetail.value = false
+  activeId.value = ''
+  document.body.style.overflow = ''
+}
 
 // 追加数据时：记录并恢复滚动位置
 const fetchArticleList = async (params?: object) => {
@@ -225,6 +247,7 @@ const fetchArticleList = async (params?: object) => {
     const prevScrollTop = el?.scrollTop ?? 0
 
     const res = await api.topic.getTopicList(params)
+    console.log(res, 99)
     const list = res.data?.data?.list ?? []
 
     // 可选：如果后端没有更多了，设置 finish
@@ -275,13 +298,7 @@ onUnmounted(() => {
 
 <template>
   <div class="water-box" ref="scrollContainer">
-    <MasonryWall
-      :items="photos"
-      :item-key="'id'"
-      :column-width="240"
-      :gap="16"
-      :rtl="false"
-    >
+    <MasonryWall :items="photos" :item-key="'id'" :column-width="240" :gap="16" :rtl="false">
       <template #default="{ item: p }">
         <Card_Box
           :cover_img="p.cover_image?.url ?? ''"
@@ -289,13 +306,20 @@ onUnmounted(() => {
           :username="p.author_name ?? '默认用户名'"
           :image-height="p.cover_image?.height ?? 260"
           :image-width="p.cover_image?.width ?? 260"
+          :id="p._id"
           style="width: 100%"
+          @open-detail="openDetail"
         />
       </template>
     </MasonryWall>
     <Loading v-if="loading"></Loading>
     <div v-if="finish" style="text-align: center; padding: 10px">没有更多了...</div>
   </div>
+
+  <!-- 用 Teleport 把弹层挂到 body，避免被父层裁剪/影响层级 -->
+  <Teleport to="body">
+    <NoteDetailDialog v-if="showDetail" :id="activeId" @close="closeDetail" :detail-data="detailData" />
+  </Teleport>
 </template>
 
 <style scoped lang="scss">

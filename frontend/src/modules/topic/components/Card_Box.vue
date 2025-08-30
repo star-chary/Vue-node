@@ -23,8 +23,18 @@ const props = defineProps({
     type: Number,
     default: 260,
   },
+  // 文章 ID
+  id: {
+    type: String,
+    default: '',
+  },
 })
+// 搭配 Ts 使用纯类型标注来声明触发的事件
+const emit = defineEmits<{
+  (e: 'openDetail', id: string): void
+}>()
 
+const router = useRouter()
 // const base_img_url = 'http://localhost:7001'
 // const base_img_url = 'http://1.92.114.63:7001'
 const base_img_url = import.meta.env.VITE_API_BASE_URL
@@ -42,12 +52,24 @@ const calculateImageHeight = computed(() => {
   }
   return 260 // 默认高度
 })
+
+// 进入详情页
+const intoDetail = (id: string) => {
+  console.log(id, 123)
+  router.push({ name: 'topicListCard', query: { id } })
+  emit('openDetail', id)
+}
 </script>
 
 <template>
   <div class="card-box">
-    <div class="defaultImage" :style="{ height: `${calculateImageHeight}px` }">
-      <img :src="url ? url : ''" alt="" />
+    <div
+      class="defaultImage"
+      @click="intoDetail(id)"
+      :style="{ height: `${calculateImageHeight}px` }"
+    >
+      <img :src="url ? url : '/uploads/2025-08-17/1755438890765-0-sky.jpg'" alt="" />
+      <div class="hover-overlay"></div>
     </div>
     <div class="title">{{ title }}</div>
     <div class="user-info">
@@ -71,7 +93,6 @@ const calculateImageHeight = computed(() => {
   background: #fff;
   border-radius: 10px;
   @include flex-column;
-  border: 1px solid rgba(128, 128, 128, 0.38);
 }
 
 .defaultImage {
@@ -79,18 +100,45 @@ const calculateImageHeight = computed(() => {
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 10px;
+  position: relative;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+
+    transition:
+      transform 0.3s ease,
+      filter 0.3s ease;
   }
+
+  .hover-overlay {
+    position: absolute;
+    inset: 0;
+    // 轻微渐变+淡淡暗化，仍能清晰看见图片
+    background: rgb(0 0 0 / 0.3);
+    opacity: 0;
+    transition:
+      opacity 0.3s ease,
+      backdrop-filter 0.3s ease;
+    cursor: pointer;
+  }
+
+  &:hover .hover-overlay {
+    opacity: 1;
+  }
+}
+
+.title{
+  width: 100%;
+  margin: 6px 0;
+  text-align: left;
 }
 
 .user-info {
   width: 100%;
-  padding: 10px 10px;
+  padding: 4px 4px;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
