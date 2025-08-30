@@ -60,7 +60,7 @@ const createYoyo = (radius: number) => {
       point.setAttribute('fill', '#f7f7f7')
       point.setAttribute('cx', String(x))
       point.setAttribute('cy', String(y))
-      point.setAttribute('r', String(radius / 5))
+      point.setAttribute('r', String(radius / 8))
 
       const line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
       line.setAttribute('x1', String(x))
