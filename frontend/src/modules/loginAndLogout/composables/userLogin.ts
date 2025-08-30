@@ -33,13 +33,14 @@ export const userLogin = () => {
   }
 
   // 登录
+  const loading = ref(false)
   const handleLogin = async (loginData: LoginForm) => {
     try {
+      loading.value = true
       const res = await api.user.loginUser({
         username: loginData.username,
         password: loginData.password,
       })
-      console.log(res, 66666)
       if (res.data.code === 200) {
         // 将 接收到的 token 存入本地
         authUtils.setToken(res.data.data.token)
@@ -50,6 +51,8 @@ export const userLogin = () => {
       }
     } catch (e) {
       console.log(e)
+    }finally {
+      loading.value = false
     }
     // 清空账号密码
     clearFn()
@@ -80,6 +83,7 @@ export const userLogin = () => {
     handleLogin,
     loginForm,
     loginOrRegister,
+    loading,
     handleRegister,
     loginOrRegisterFn,
     handleLogout,
