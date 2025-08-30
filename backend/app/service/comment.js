@@ -24,7 +24,7 @@ class CommentService extends Service {
     }
     const total = await ctx.model.Comment.countDocuments({ topic_id });
     return {
-      comments,
+      data: comments,
       total,
     };
   }

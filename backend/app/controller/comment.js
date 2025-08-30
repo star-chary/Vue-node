@@ -30,15 +30,13 @@ class CommentController extends Controller {
 
     try {
       const { topic_id } = ctx.request.body;
-      const { comments, total } = await ctx.service.comment.getCommentList(topic_id);
+      const { data, total } = await ctx.service.comment.getCommentList(topic_id);
       ctx.status = 200;
       ctx.body = {
         code: 200,
         msg: '获取成功',
-        data: {
-          list: comments,
-          total,
-        },
+        data,
+        total,
       };
     } catch (error) {
       ctx.status = error.status || 500;

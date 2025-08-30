@@ -25,9 +25,9 @@ module.exports = app => {
 
   // 主题资源
   // 新建主题
-  router.post('/topic', jwt, controller.topic.create);
+  router.post('/addTopic', jwt, controller.topic.create);
   // 主题列表
-  router.post('/list', jwt, controller.topic.getList);
+  router.post('/topics', jwt, controller.topic.getList);
   // 主题详情
   router.get('/list/:id', jwt, controller.topic.getDetail);
   // 删除主题
@@ -42,4 +42,5 @@ module.exports = app => {
   // 获取文章评论
   router.post('/getCommentList', jwt, controller.comment.getCommentList);
 
+  router.get('/logs', controller.log.getLogs);
 };
