@@ -77,6 +77,8 @@ export const useTopicList = () => {
       title: input,
     })
     tableData.value = res.data.data.list
+    total.value = res.data.data.total
+    console.log(res, 'search')
   }
   // 搜索 回车
   const handleSearchEnter = async (input: string) => {

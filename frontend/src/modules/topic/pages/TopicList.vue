@@ -11,7 +11,7 @@ const {
   total,
   handleSizeChange,
   handleCurrentChange,
-  handleSearchEnter
+  handleSearchEnter,
 } = useTopicList()
 </script>
 
