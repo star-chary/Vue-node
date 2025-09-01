@@ -228,7 +228,7 @@ const openDetail = async (id: string) => {
   document.body.style.overflow = 'hidden'
   const res = await api.topic.getTopicDetail(id)
   detailData.value = res.data.data
-  console.log(res,'de')
+  console.log(res, 'de')
 }
 
 const closeDetail = () => {
@@ -247,7 +247,6 @@ const fetchArticleList = async (params?: object) => {
     const prevScrollTop = el?.scrollTop ?? 0
 
     const res = await api.topic.getTopicList(params)
-    console.log(res, 99)
     const list = res.data?.data?.list ?? []
 
     // 可选：如果后端没有更多了，设置 finish
@@ -288,6 +287,7 @@ const handleScroll = debounce(() => {
 
 onMounted(async () => {
   await fetchArticleList({ page, pageSize })
+  console.log(photos.value, 888)
   scrollContainer.value?.addEventListener('scroll', handleScroll, { passive: true })
 })
 
@@ -298,7 +298,7 @@ onUnmounted(() => {
 
 <template>
   <div class="water-box" ref="scrollContainer">
-    <MasonryWall :items="photos" :item-key="'id'" :column-width="240" :gap="16" :rtl="false">
+    <MasonryWall :items="photos" :item-key="'_id'" :column-width="240" :gap="16" :rtl="false">
       <template #default="{ item: p }">
         <Card_Box
           :cover_img="p.cover_image?.url ?? ''"
@@ -318,7 +318,12 @@ onUnmounted(() => {
 
   <!-- 用 Teleport 把弹层挂到 body，避免被父层裁剪/影响层级 -->
   <Teleport to="body">
-    <NoteDetailDialog v-if="showDetail" :id="activeId" @close="closeDetail" :detail-data="detailData" />
+    <NoteDetailDialog
+      v-if="showDetail"
+      :id="activeId"
+      @close="closeDetail"
+      :detail-data="detailData"
+    />
   </Teleport>
 </template>
 
@@ -329,5 +334,12 @@ onUnmounted(() => {
   padding: 24px;
   box-sizing: border-box;
   overflow-y: auto;
+  will-change: transform; /* 提示 GPU 合成，滚动更平滑 */
+}
+/* 可选：仅当卡片滚动时会做 transform/opacity 动画时 */
+.card-box {
+  contain: content; /* 限制重绘影响范围，现代浏览器支持良好 */
+  content-visibility: auto; /* 只渲染视口附近内容（Chromium） */
+  contain-intrinsic-size: 400px 300px; /* 给出近似占位，避免布局跳动 */
 }
 </style>
