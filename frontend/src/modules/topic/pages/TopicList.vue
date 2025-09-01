@@ -11,6 +11,7 @@ const {
   total,
   handleSizeChange,
   handleCurrentChange,
+  handleSearchEnter
 } = useTopicList()
 </script>
 
@@ -27,6 +28,7 @@ const {
             v-model="inputData"
             clearable
             placeholder="请输入查询文章"
+            @keyup.enter="handleSearchEnter(inputData)"
           >
             <template #append>
               <el-button @click="handleSearch(inputData)">搜索</el-button>

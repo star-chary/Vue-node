@@ -71,12 +71,16 @@ export const useTopicList = () => {
     }
   }
 
-  // 搜索
+  // 搜索- 按钮
   const handleSearch = async (input: string) => {
     const res = await api.topic.getTopicList({
       title: input,
     })
     tableData.value = res.data.data.list
+  }
+  // 搜索 回车
+  const handleSearchEnter = async (input: string) => {
+    await handleSearch(input)
   }
 
   // 操作处理
@@ -110,5 +114,6 @@ export const useTopicList = () => {
     handleAction,
     handleSizeChange,
     handleCurrentChange,
+    handleSearchEnter,
   }
 }
