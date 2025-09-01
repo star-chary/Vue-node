@@ -68,7 +68,12 @@ const intoDetail = (id: string) => {
       @click="intoDetail(id)"
       :style="{ height: `${calculateImageHeight}px` }"
     >
-      <img :src="url ? url : '/uploads/2025-08-17/1755438890765-0-sky.jpg'" alt="" />
+      <img
+        :src="url ? url : '/uploads/2025-08-17/1755438890765-0-sky.jpg'"
+        alt=""
+        loading="lazy"
+        decoding="async"
+      />
       <div class="hover-overlay"></div>
     </div>
     <div class="title">{{ title }}</div>
@@ -130,7 +135,7 @@ const intoDetail = (id: string) => {
   }
 }
 
-.title{
+.title {
   width: 100%;
   margin: 6px 0;
   text-align: left;

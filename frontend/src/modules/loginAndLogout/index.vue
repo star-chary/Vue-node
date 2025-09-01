@@ -4,7 +4,15 @@ import UserLogin from '@/modules/loginAndLogout/components/UserLogin.vue'
 import UserRegister from '@/modules/loginAndLogout/components/UserRegister.vue'
 import { userLogin } from '@/modules/loginAndLogout/composables/userLogin'
 
-const { loginForm, handleLogin, handleRegister, loginOrRegister, loginOrRegisterFn ,loading} = userLogin()
+const {
+  loginForm,
+  handleLogin,
+  handleRegister,
+  loginOrRegister,
+  loginOrRegisterFn,
+  loading,
+  loadingRegister,
+} = userLogin()
 
 const onLogin = (loginData: any) => {
   handleLogin(loginData)
@@ -38,6 +46,7 @@ const handleSwitch = (data: string) => {
           @on-switch="handleSwitch"
           @handle-register="onRegister"
           :login-form="loginForm"
+          :loading-register="loadingRegister"
           v-else
           class="login-content login-title"
         ></UserRegister>

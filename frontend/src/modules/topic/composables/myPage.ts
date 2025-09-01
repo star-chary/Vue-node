@@ -20,10 +20,6 @@ export const useMyPage = () => {
       prop: 'content',
     },
     {
-      label: '回复数',
-      prop: 'reply_count',
-    },
-    {
       label: '操作',
       prop: 'action',
       actions: [

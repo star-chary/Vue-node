@@ -51,6 +51,7 @@ export const useTopicList = () => {
     }
   }
 
+
   // 分页操作
   const handleCurrentChange = async (currentPage: number) => {
     page.value.page = currentPage
@@ -71,12 +72,17 @@ export const useTopicList = () => {
     }
   }
 
-  // 搜索
+  // 搜索- 按钮
   const handleSearch = async (input: string) => {
-    const res = await api.topic.getTopicList({
-      title: input,
-    })
-    tableData.value = res.data.data.list
+    // 将搜索词写入分页查询参数，并重置到第一页
+    page.value.title = input?.trim() ?? ''
+    page.value.page = 1
+    await handleGetList()
+  }
+
+  // 搜索 回车
+  const handleSearchEnter = async (input: string) => {
+    await handleSearch(input)
   }
 
   // 操作处理
@@ -90,10 +96,14 @@ export const useTopicList = () => {
     () => inputData.value,
     async (newVal, oldVal) => {
       if (newVal.length === 0) {
+        // 清空搜索时同步清空查询条件并回到第一页
+        page.value.title = ''
+        page.value.page = 1
         await handleGetList()
       }
     },
   )
+
 
   onMounted(async () => {
     await handleGetList()
@@ -110,5 +120,6 @@ export const useTopicList = () => {
     handleAction,
     handleSizeChange,
     handleCurrentChange,
+    handleSearchEnter,
   }
 }
