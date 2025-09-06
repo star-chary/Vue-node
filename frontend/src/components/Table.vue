@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { formatISOTime } from '@/utils/format.ts'
-import * as timers from 'node:timers'
+import { getDeviceType } from '@/utils/getDeviceType.ts'
+
 interface Columns {
   ip: String
   location: {
@@ -42,6 +43,10 @@ const columns = ref([
     label: '时间',
     prop: 'time',
   },
+  {
+    label: '设备',
+    prop: 'userAgent',
+  },
 ])
 </script>
 <template>
@@ -60,6 +65,9 @@ const columns = ref([
         >
           <template v-if="item.prop === 'time'" #default="escope">
             {{ formatISOTime(escope.row.time) }}
+          </template>
+          <template v-if="item.prop === 'userAgent'" #default="escope">
+            {{ getDeviceType(escope.row.userAgent) }}
           </template>
         </el-table-column>
       </el-table>
