@@ -95,7 +95,7 @@ const intoDetail = (id: string) => {
 <style scoped lang="scss">
 .card-box {
   width: 100px;
-  background: #fff;
+  background: var(--bg-color);
   border-radius: 10px;
   @include flex-column;
 }
@@ -139,6 +139,12 @@ const intoDetail = (id: string) => {
   width: 100%;
   margin: 6px 0;
   text-align: left;
+  font-size: 14px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  color: var(--text-color);
 }
 
 .user-info {
@@ -158,7 +164,12 @@ const intoDetail = (id: string) => {
       font-size: 14px;
       cursor: pointer;
       margin-left: 10px;
+      color: var(--text-color);
     }
   }
+}
+
+.likes {
+  color: var(--text-color);
 }
 </style>

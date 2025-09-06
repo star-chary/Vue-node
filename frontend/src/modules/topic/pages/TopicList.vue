@@ -61,14 +61,16 @@ const {
             </el-table-column>
           </el-table>
         </div>
-        <el-pagination
-          v-model:page-size="page.pageSize"
-          v-model:current-page="page.page"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          layout="prev, pager, next"
-          :total="total"
-        />
+        <div class="pagination" >
+          <el-pagination
+            v-model:page-size="page.pageSize"
+            v-model:current-page="page.page"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            layout="prev, pager, next"
+            :total="total"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -83,6 +85,7 @@ const {
   padding: 20px;
   box-sizing: border-box;
   overflow: hidden;
+  background-color: var(--bg-color);
 
   .title {
     width: 100%;
@@ -96,7 +99,7 @@ const {
 
   .list-table {
     flex: 1;
-    background-color: rgb(240, 240, 240);
+    background-color: var(--bg-color);
     padding: 30px;
     overflow: hidden; /* 防止溢出 */
 
@@ -113,6 +116,7 @@ const {
         padding: 20px;
         box-sizing: border-box;
         flex-shrink: 0; /* 防止搜索栏被压缩 */
+        background-color: var(--bg-color);
       }
 
       .table-list {
@@ -146,5 +150,9 @@ const {
 :deep(.el-table__cell) {
   max-height: 60px !important;
   overflow: hidden !important;
+}
+
+.pagination {
+  background-color: var(--bg-color);
 }
 </style>

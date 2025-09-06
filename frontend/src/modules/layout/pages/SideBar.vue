@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { authUtils } from '@/utils/auth.ts'
+import ThemeSwitch from '@/components/ThemeSwitch.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -44,9 +45,7 @@ const handleLogout = () => {
         <el-icon><User /></el-icon>
         我
       </el-menu-item>
-
     </el-menu>
-
 
     <el-popover
       placement="top"
@@ -61,8 +60,9 @@ const handleLogout = () => {
         </div>
       </template>
       <div class="more-panel">
-        <button class="more-item">切换主题</button>
-        <button class="more-item" @click="handleLogout">退出登录</button>
+        <!--        <button class="more-item">切换主题</button>-->
+        <ThemeSwitch></ThemeSwitch>
+        <div class="more-item" @click="handleLogout">退出登录</div>
       </div>
     </el-popover>
   </div>
@@ -75,10 +75,11 @@ const handleLogout = () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: var(--bg-color);
 }
 .more {
   margin: 30px 20px;
-  color: #303133;
+  color: var(--text-color);
   font-size: 14px;
   cursor: pointer;
 }
@@ -88,20 +89,18 @@ const handleLogout = () => {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  color: var(--text-color);
 }
 .more-item {
-  border-radius: 8px;
-  border: 1px solid white;
-  background: var(--el-fill-color-blank);
-  color: var(--el-text-color-primary);
+  width: 100%;
+  height: 100%;
   cursor: pointer;
+  text-align: center;
   margin: 4px 0;
-  transition:
-    background-color 180ms ease,
-    transform 180ms ease;
 }
 .more-item:hover {
-  background: var(--el-fill-color-lighter);
+  background-color: var(--bg-color-gray);
+  margin: 4px 0;
   transform: translateY(-1px);
 }
 </style>

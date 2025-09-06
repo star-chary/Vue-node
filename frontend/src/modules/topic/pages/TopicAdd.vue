@@ -60,7 +60,7 @@ const {
 .topic-container {
   width: 100%;
   height: 100%;
-  background-color: white;
+  background-color:var(--bg-color);
   padding: 40px;
   box-sizing: border-box;
 }
@@ -90,5 +90,11 @@ const {
   width: 178px;
   height: 178px;
   text-align: center;
+}
+
+el-upload-list{
+  width: 100%;
+  height: 100%;
+  background-color: red;
 }
 </style>

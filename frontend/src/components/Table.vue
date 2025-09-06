@@ -81,7 +81,7 @@ const columns = ref([
       <!--        :background="background"-->
       <!--        layout="total, sizes, prev, pager, next, jumper"-->
       <!--        :total="400"-->
-      <!--        @size-change="handleSizeChange"-->
+      <!--        @s`ize-change="handleSizeChange"-->
       <!--        @current-change="handleCurrentChange"-->
       <!--      />-->
     </div>
@@ -94,15 +94,16 @@ const columns = ref([
   width: 100%;
   height: 100vh;
   padding: 20px;
-  background-color: gray;
+  background-color: var(--bg-color);
   box-sizing: border-box;
 }
 
 .slot-box {
   width: 100%;
   height: 30vh;
-  background-color: white;
+  background-color: var(--bg-color);
   margin-bottom: 16px;
+  color: var(--text-color);
 }
 .table-box {
   display: flex;
@@ -111,5 +112,6 @@ const columns = ref([
   height: 70vh;
   background-color: white;
   overflow: auto;
+  box-shadow: 0 0 10px rgba(173, 40, 40, 0.1);
 }
 </style>

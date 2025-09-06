@@ -1,4 +1,5 @@
 import '@/assets/gloab.scss'
+import '@/assets/theme.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { noSpace } from '@/directives/noSpace.ts'

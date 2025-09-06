@@ -27,11 +27,6 @@ const router = createRouter({
           component: () => import('@/modules/topic/pages/TopicDetail.vue'),
         },
         {
-          path: 'logout',
-          name: 'logout',
-          component: () => import('@/modules/logout/pages/Logout.vue'),
-        },
-        {
           path: 'modifyTopic/:id?',
           name: 'modifyTopic',
           component: () => import('@/modules/topic/pages/TopicModify.vue'),

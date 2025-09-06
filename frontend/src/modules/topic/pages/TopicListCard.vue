@@ -335,6 +335,7 @@ onUnmounted(() => {
   box-sizing: border-box;
   overflow-y: auto;
   will-change: transform; /* 提示 GPU 合成，滚动更平滑 */
+  background-color: var(--bg-color);
 }
 /* 可选：仅当卡片滚动时会做 transform/opacity 动画时 */
 .card-box {

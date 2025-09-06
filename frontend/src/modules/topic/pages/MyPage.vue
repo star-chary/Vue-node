@@ -67,6 +67,7 @@ const { tableHead, topicData, handleAction, page, handleCurrentChange, handleSiz
   overflow: hidden; /* 防止整个页面滚动 */
   box-sizing: border-box;
   padding: 20px;
+  background-color: var(--bg-color);
 }
 
 .description {
@@ -88,7 +89,7 @@ const { tableHead, topicData, handleAction, page, handleCurrentChange, handleSiz
   }
 
   &::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background:var(--bg-color);
   }
 
   &::-webkit-scrollbar-thumb {
