@@ -89,7 +89,7 @@ const menuList = [
     </div>
   </header>
   <div class="appContainer">
-    <div class="sideBar" :style="{ width: isMobile ? '0' : '200px' }">
+    <div class="sideBar" >
       <SideBar></SideBar>
     </div>
     <div class="rightBar">
@@ -116,6 +116,10 @@ header {
   .appContainer {
     height: calc(100vh - 6vh);
   }
+
+  .sideBar{
+    width: 0;
+  }
 }
 
 .appContainer {
@@ -139,7 +143,6 @@ header {
 }
 
 .sideBar {
-  width: 200px;
   transition: width 0.3s ease;
   background-color: white;
   overflow: hidden;
