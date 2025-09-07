@@ -2,6 +2,7 @@
 import Magnetic from '@/components/Magnetic.vue'
 import UserLogin from '@/modules/loginAndLogout/components/UserLogin.vue'
 import UserRegister from '@/modules/loginAndLogout/components/UserRegister.vue'
+import Spline from '@/components/Spline.vue'
 import { userLogin } from '@/modules/loginAndLogout/composables/userLogin'
 
 const {
@@ -27,37 +28,51 @@ const onRegister = (data: any) => {
 const handleSwitch = (data: string) => {
   loginOrRegisterFn(data)
 }
+
 </script>
 
 <template>
-  <Magnetic></Magnetic>
-  <div class="login-page" :class="{ 'register-mode': loginOrRegister === 'register' }">
-    <div class="login-container">
-      <div style="display: flex; flex-direction: column">
-        <UserLogin
-          v-if="loginOrRegister === 'login'"
-          :login-form="loginForm"
-          :loading="loading"
-          @handle-login="onLogin"
-          @on-switch="handleSwitch"
-          class="login-content login-title"
-        ></UserLogin>
-        <UserRegister
-          @on-switch="handleSwitch"
-          @handle-register="onRegister"
-          :login-form="loginForm"
-          :loading-register="loadingRegister"
-          v-else
-          class="login-content login-title"
-        ></UserRegister>
-      </div>
-    </div>
+  <!--  <Magnetic></Magnetic>-->
+  <div style="width: 100vw; height: 100vh; overflow: hidden; position: relative">
+    <!--    <spline-viewer-->
+    <!--      style="position: absolute; top: 0; left: 0; width: 100%; height: 110%"-->
+    <!--      url=""-->
+    <!--    ></spline-viewer>-->
+    <spline
+      script-url="https://unpkg.com/@splinetool/viewer@1.10.56/build/spline-viewer.js"
+      spline-url="https://prod.spline.design/5QgfcF1nxGI77Kzz/scene.splinecode"
+    ></spline>
+    <!--    <div class="login-page" :class="{ 'register-mode': loginOrRegister === 'register' }">-->
+    <!--      <div class="login-container">-->
+    <!--        <div style="display: flex; flex-direction: column">-->
+    <UserLogin
+      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
+      v-if="loginOrRegister === 'login'"
+      :login-form="loginForm"
+      :loading="loading"
+      @handle-login="onLogin"
+      @on-switch="handleSwitch"
+      class="login-content login-title"
+    ></UserLogin>
+    <UserRegister
+      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
+      @on-switch="handleSwitch"
+      @handle-register="onRegister"
+      :login-form="loginForm"
+      :loading-register="loadingRegister"
+      v-else
+      class="login-content login-title"
+    ></UserRegister>
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 </template>
 
 <style scoped lang="scss">
 // 定义 sass 变量
-$login-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+//$login-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+//$login-gradient: #353d3d;
 $register-gradient: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
 $transition-duration: 0.3s;
 
@@ -70,25 +85,23 @@ $transition-duration: 0.3s;
   // 默认登录状态
   &:not(.register-mode) {
     .login-container {
-      background-color: $login-gradient;
+      //background-color: $login-gradient;
     }
   }
 
   // 注册状态
   &.register-mode {
     .login-container {
-      background-color: $register-gradient;
+      //background-color: $register-gradient;
     }
   }
 }
 
 .login-container {
-  width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: $login-gradient;
+  //background: $login-gradient;
   transition: background $transition-duration ease-in-out;
   padding: 1rem;
   box-sizing: border-box;
@@ -99,11 +112,18 @@ $transition-duration: 0.3s;
   }
 }
 
+.login-register {
+}
+
 .login-content {
-  background: white;
+  background: rgba(255, 255, 255, 0.1);
+  /* 毛玻璃效果 */
+  backdrop-filter: blur(10px);
+  /* 边框、阴影增加层次感 */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   padding: 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
   min-width: 300px;

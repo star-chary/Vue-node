@@ -21,7 +21,7 @@ const state = {
   lines: 30,
   rows: 30,
   balls: [] as Ball[],
-  mouse_radius: 180,
+  mouse_radius: 120,
 }
 
 const resize = () => {
@@ -51,7 +51,7 @@ const createYoyo = (radius: number) => {
       const y = (state.height / state.rows) * r
 
       const ball = document.createElementNS('http://www.w3.org/2000/svg', 'circle') as Ball
-      ball.setAttribute('fill', '#17f700')
+      ball.setAttribute('fill', '#333')
       ball.setAttribute('cx', String(x))
       ball.setAttribute('cy', String(y))
       ball.setAttribute('r', String(radius))
@@ -60,7 +60,7 @@ const createYoyo = (radius: number) => {
       point.setAttribute('fill', '#f7f7f7')
       point.setAttribute('cx', String(x))
       point.setAttribute('cy', String(y))
-      point.setAttribute('r', String(radius / 8))
+      point.setAttribute('r', String(radius / 2))
 
       const line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
       line.setAttribute('x1', String(x))
