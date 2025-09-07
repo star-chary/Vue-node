@@ -12,7 +12,7 @@ const {
   handlePictureCardPreview,
   handleRemove,
   uploadRef,
-  isSubmitting
+  isSubmitting,
 } = useCreateTopic()
 </script>
 
@@ -32,17 +32,19 @@ const {
           :autosize="{ minRows: 3, maxRows: 20 }"
         ></el-input>
       </el-form-item>
+      <el-form-item label-width="10vw">
+        <el-upload
+          ref="uploadRef"
+          v-model:file-list="fileList"
+          :auto-upload="false"
+          list-type="picture-card"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove"
+        >
+          <el-icon><Plus /></el-icon>
+        </el-upload>
+      </el-form-item>
     </el-form>
-    <el-upload
-      ref="uploadRef"
-      v-model:file-list="fileList"
-      :auto-upload="false"
-      list-type="picture-card"
-      :on-preview="handlePictureCardPreview"
-      :on-remove="handleRemove"
-    >
-      <el-icon><Plus /></el-icon>
-    </el-upload>
 
     <el-dialog v-model="dialogVisible">
       <img w-full :src="dialogImageUrl" alt="Preview Image" />
@@ -51,7 +53,7 @@ const {
       style="display: block; width: 400px; margin: 0 auto"
       @click="createTopic(fileList)"
       type="primary"
-      >{{ isSubmitting ? '提交中...' : '提交'}}</el-button
+      >{{ isSubmitting ? '提交中...' : '提交' }}</el-button
     >
   </div>
 </template>
@@ -60,7 +62,7 @@ const {
 .topic-container {
   width: 100%;
   height: 100%;
-  background-color:var(--bg-color);
+  background-color: var(--bg-color);
   padding: 40px;
   box-sizing: border-box;
 }
@@ -92,7 +94,7 @@ const {
   text-align: center;
 }
 
-el-upload-list{
+el-upload-list {
   width: 100%;
   height: 100%;
   background-color: red;

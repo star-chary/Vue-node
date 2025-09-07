@@ -36,7 +36,7 @@ const {
           </el-input>
         </div>
         <div class="table-list">
-          <el-table :data="tableData" style="width: 100%" height="100%" :scroll-y="true">
+          <el-table :data="tableData" style="width: 100%" max-height="100%" :scroll-y="true">
             <el-table-column type="index" width="50" />
             <el-table-column
               v-for="item in tableHead"
@@ -61,7 +61,7 @@ const {
             </el-table-column>
           </el-table>
         </div>
-        <div class="pagination" >
+        <div class="pagination">
           <el-pagination
             v-model:page-size="page.pageSize"
             v-model:current-page="page.page"
@@ -81,7 +81,7 @@ const {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh; /* 使用视口高度 */
+  height: 100%;
   padding: 20px;
   box-sizing: border-box;
   overflow: hidden;
@@ -102,6 +102,7 @@ const {
     background-color: var(--bg-color);
     padding: 30px;
     overflow: hidden; /* 防止溢出 */
+    min-height: 0;
 
     .table-container {
       width: 100%;
@@ -121,7 +122,9 @@ const {
 
       .table-list {
         flex: 1;
-        overflow: hidden; /* 让表格内部处理滚动 */
+        background-color: var(--bg-color);
+        min-height: 0;
+
 
         // 自定义表格内容样式
         :deep(.el-table__body-wrapper) {

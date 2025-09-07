@@ -15,6 +15,9 @@ declare module 'vue' {
     ElDescriptions: typeof import('element-plus/es')['ElDescriptions']
     ElDescriptionsItem: typeof import('element-plus/es')['ElDescriptionsItem']
     ElDialog: typeof import('element-plus/es')['ElDialog']
+    ElDropdown: typeof import('element-plus/es')['ElDropdown']
+    ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
+    ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
@@ -32,6 +35,8 @@ declare module 'vue' {
     NoteDetailDialog: typeof import('./src/components/NoteDetailDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Spline: typeof import('./src/components/Spline.vue')['default']
+    SplineViewer: typeof import('./src/components/SplineViewer.vue')['default']
     Table: typeof import('./src/components/Table.vue')['default']
     ThemeSwitch: typeof import('./src/components/ThemeSwitch.vue')['default']
   }
