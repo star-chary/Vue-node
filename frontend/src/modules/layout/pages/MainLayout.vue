@@ -1,11 +1,26 @@
 <script setup>
 import SideBar from '@/modules/layout/pages/SideBar.vue'
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-
+import ThemeSwitch from '@/components/ThemeSwitch.vue'
+import { logout } from '@/utils/auth.ts'
 const isMobile = ref(false)
 let mql
-const handler = (e) => (isMobile.value = e.matches)
+const handler = (e) => {
+  isMobile.value = e.matches
 
+  // 如果不是移动端，让头部菜单消失
+  if (!isMobile.value) {
+    const header = document.querySelector('header')
+    header.style.display = 'none'
+  } else {
+    const header = document.querySelector('header')
+    header.style.display = 'flex'
+  }
+}
+
+// 退出登录
+const handleLogout = () => {
+  logout()
+}
 onMounted(() => {
   mql = window.matchMedia('(max-width: 768px)')
   isMobile.value = mql.matches
@@ -58,6 +73,8 @@ const menuList = [
                 item.title
               }}</router-link>
             </el-dropdown-item>
+            <el-dropdown-item><ThemeSwitch></ThemeSwitch></el-dropdown-item>
+            <el-dropdown-item @click="handleLogout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

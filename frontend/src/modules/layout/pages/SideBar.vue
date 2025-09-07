@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { authUtils } from '@/utils/auth.ts'
+import { logout } from '@/utils/auth.ts'
 import ThemeSwitch from '@/components/ThemeSwitch.vue'
 
 const route = useRoute()
@@ -9,9 +9,7 @@ const router = useRouter()
 const activeIndex = computed(() => String(route.name ?? ''))
 // 退出登录
 const handleLogout = () => {
-  authUtils.removeToken()
-  authUtils.removeUserInfo('userInfo')
-  router.push('/login')
+  logout()
 }
 </script>
 
