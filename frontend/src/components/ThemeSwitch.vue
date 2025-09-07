@@ -21,7 +21,6 @@ watch(theme, (newTheme) => {
 onMounted(() => {
   document.documentElement.setAttribute('data-theme', theme.value)
 })
-
 </script>
 
 <template>
@@ -30,6 +29,8 @@ onMounted(() => {
 
 <style scoped>
 div {
+  width: 100%;
+  height: 100%;
   color: var(--text-color);
   cursor: pointer;
   margin: 4px 0;

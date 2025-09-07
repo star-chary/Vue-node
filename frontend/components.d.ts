@@ -36,7 +36,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Spline: typeof import('./src/components/Spline.vue')['default']
-    SplineViewer: typeof import('./src/components/SplineViewer.vue')['default']
     Table: typeof import('./src/components/Table.vue')['default']
     ThemeSwitch: typeof import('./src/components/ThemeSwitch.vue')['default']
   }

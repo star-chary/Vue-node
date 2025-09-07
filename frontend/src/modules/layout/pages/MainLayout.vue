@@ -4,18 +4,19 @@ import ThemeSwitch from '@/components/ThemeSwitch.vue'
 import { logout } from '@/utils/auth.ts'
 const isMobile = ref(false)
 let mql
-const handler = (e) => {
-  isMobile.value = e.matches
-
-  // 如果不是移动端，让头部菜单消失
-  if (!isMobile.value) {
-    const header = document.querySelector('header')
-    header.style.display = 'none'
-  } else {
-    const header = document.querySelector('header')
-    header.style.display = 'flex'
-  }
-}
+// const handler = (e) => {
+//   isMobile.value = e.matches
+//   // 如果不是移动端，让头部菜单消失
+//   if (!isMobile.value) {
+//     // PC 端
+//     const header = document.querySelector('header')
+//     header.style.display = 'none'
+//   } else {
+//     // 移动端
+//     const header = document.querySelector('header')
+//     header.style.display = 'flex'
+//   }
+// }
 
 // 退出登录
 const handleLogout = () => {
@@ -23,12 +24,15 @@ const handleLogout = () => {
 }
 onMounted(() => {
   mql = window.matchMedia('(max-width: 768px)')
+  // 首次进入就同步一次，避免状态不同步
   isMobile.value = mql.matches
+  // 监听后续窗口变化
+  const handler = (e) => (isMobile.value = e.matches)
   mql.addEventListener('change', handler)
-})
-
-onBeforeUnmount(() => {
-  mql?.removeEventListener('change', handler)
+  // 卸载
+  onBeforeUnmount(() => {
+    mql?.removeEventListener('change', handler)
+  })
 })
 
 const menuList = [
@@ -60,7 +64,7 @@ const menuList = [
 </script>
 
 <template>
-  <header style="width: 100vw; height: 6vh">
+  <header v-show="isMobile" style="width: 100vw; height: 6vh">
     <div id="menu-icon">
       <el-dropdown size="large" type="primary">
         <div style="font-size: 32px">
@@ -69,12 +73,16 @@ const menuList = [
         <template #dropdown>
           <el-dropdown-menu style="background-color: var(--bg-color)">
             <el-dropdown-item v-for="item in menuList">
-              <router-link style="color: var(--text-color); text-decoration: none" :to="item.to">{{
-                item.title
-              }}</router-link>
+              <router-link
+                style="width: 100%; height: 100%; color: var(--text-color); text-decoration: none"
+                :to="item.to"
+                >{{ item.title }}</router-link
+              >
             </el-dropdown-item>
             <el-dropdown-item><ThemeSwitch></ThemeSwitch></el-dropdown-item>
-            <el-dropdown-item @click="handleLogout">退出登录</el-dropdown-item>
+            <el-dropdown-item style="width: 100%; height: 100%" @click="handleLogout"
+              >退出登录</el-dropdown-item
+            >
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -91,24 +99,35 @@ const menuList = [
 </template>
 
 <style scoped>
-.appContainer {
-  width: 100%;
-  height: calc(100vh - 6vh);
-  overflow: hidden;
-  display: flex;
-}
 header {
-  display: flex;
+  display: none;
   justify-content: flex-end;
   align-items: center;
   padding: 0 10px;
   box-sizing: border-box;
   background-color: var(--bg-color);
 }
+
+@media (max-width: 768px) {
+  header {
+    display: flex; /* 移动端显示 */
+  }
+
+  .appContainer {
+    height: calc(100vh - 6vh);
+  }
+}
+
+.appContainer {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+}
 #menu-icon {
   color: var(--text-color);
   cursor: pointer;
-  margin-right: 10px;
+  margin-right: 4vw;
   z-index: 1000;
 }
 

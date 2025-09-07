@@ -64,7 +64,6 @@ export const useMyPage = () => {
   // 查看
   const handleView = async (row: Row) => {
     try {
-      // router.push(`/topicListCard/${row._id}`)
       router.push({ name: 'topicListCard', params: { id: row._id } })
     } catch (e) {
       console.log(e)
