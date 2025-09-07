@@ -209,6 +209,7 @@ import Card_Box from '@/modules/topic/components/Card_Box.vue'
 import NoteDetailDialog from '@/components/NoteDetailDialog.vue'
 
 const router = useRouter()
+const route = useRoute()
 const photos = ref<any[]>([])
 let page = 1
 let pageSize = 10
@@ -221,21 +222,33 @@ const showDetail = ref(false)
 const activeId = ref<string>('')
 // 详情
 const detailData = ref<any>({})
+// 打开详情页
 const openDetail = async (id: string) => {
+  // activeId.value = id
+  // showDetail.value = true
+  // // 可选：锁定背景滚动
+  // document.body.style.overflow = 'hidden'
+  // const res = await api.topic.getTopicDetail(id)
+  // detailData.value = res.data.data
+
+  // 如果路由里不是当前 id，则同步到 /topicListCard/:id（避免重复 push）
+  if (route.params.id !== id) {
+    router.replace({ name: 'topicListCard', params: { id } })
+  }
   activeId.value = id
   showDetail.value = true
-  // 可选：锁定背景滚动
   document.body.style.overflow = 'hidden'
   const res = await api.topic.getTopicDetail(id)
   detailData.value = res.data.data
-  console.log(res, 'de')
 }
 
 const closeDetail = () => {
-  router.push({ path: 'topicListCard' })
+  // router.push({ path: 'topicListCard' })
   showDetail.value = false
   activeId.value = ''
   document.body.style.overflow = ''
+  // 用 replace 回到无 id 的列表，避免产生额外历史记录
+  router.replace({ name: 'topicListCard', params: {} })
 }
 
 // 追加数据时：记录并恢复滚动位置
@@ -287,13 +300,36 @@ const handleScroll = debounce(() => {
 
 onMounted(async () => {
   await fetchArticleList({ page, pageSize })
-  console.log(photos.value, 888)
+  // 初次进入，若路由带了 :id，自动打开
+  const initialId = route.params.id as string | undefined
+  console.log(initialId, 88)
+  if (initialId) {
+    openDetail(initialId)
+  }
+
   scrollContainer.value?.addEventListener('scroll', handleScroll, { passive: true })
 })
 
 onUnmounted(() => {
   scrollContainer.value?.removeEventListener('scroll', handleScroll)
 })
+
+// 路由参数变化时，同步弹层开关
+// watch(
+//   () => route.params.id,
+//   (id) => {
+//     const val = (id as string | undefined) ?? ''
+//     if (val) {
+//       // 若已打开且是同一个 id，不重复拉取
+//       if (!showDetail.value || activeId.value !== val) {
+//         openDetail(val)
+//       }
+//     } else if (showDetail.value) {
+//       // 去掉 id 时，关闭弹层
+//       closeDetail()
+//     }
+//   },
+// )
 </script>
 
 <template>
