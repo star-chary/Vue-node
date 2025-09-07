@@ -40,3 +40,10 @@ export const authUtils: AuthUtils = {
     return localStorage.removeItem(key)
   },
 }
+
+// 退出登录
+export const logout = async (): void => {
+  authUtils.removeToken()
+  authUtils.removeUserInfo('userInfo')
+  window.location.href = '/login'
+}
