@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import Magnetic from '@/components/Magnetic.vue'
 import UserLogin from '@/modules/loginAndLogout/components/UserLogin.vue'
 import UserRegister from '@/modules/loginAndLogout/components/UserRegister.vue'
-import Spline from '@/components/Spline.vue'
 import { userLogin } from '@/modules/loginAndLogout/composables/userLogin'
+import { onMounted, ref } from 'vue'
 
 const {
   loginForm,
@@ -15,60 +14,96 @@ const {
   loadingRegister,
 } = userLogin()
 
-const onLogin = (loginData: any) => {
-  handleLogin(loginData)
+const onLogin = (loginData: any) => handleLogin(loginData)
+const onRegister = (data: any) => handleRegister(data)
+const handleSwitch = (data: string) => loginOrRegisterFn(data)
+
+// 加载状态
+const splineReady = ref(false)
+const webglOk = ref(true)
+
+function checkWebGL(): boolean {
+  try {
+    const canvas = document.createElement('canvas')
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+    return !!gl
+  } catch {
+    return false
+  }
 }
 
-// 注册
-const onRegister = (data: any) => {
-  handleRegister(data)
+async function loadScript(src: string) {
+  await new Promise<void>((resolve, reject) => {
+    const s = document.createElement('script')
+    s.type = 'module'
+    s.src = src
+    s.async = true
+    s.onload = () => resolve()
+    s.onerror = () => reject(new Error(`load failed: ${src}`))
+    document.head.appendChild(s)
+  })
 }
 
-// 切换登录或注册
-const handleSwitch = (data: string) => {
-  loginOrRegisterFn(data)
-}
+onMounted(async () => {
+  webglOk.value = checkWebGL()
+  if (!webglOk.value) return
 
+  const cdnList = [
+    'https://unpkg.com/@splinetool/viewer@1.10.56/build/spline-viewer.js',
+    'https://cdn.jsdelivr.net/npm/@splinetool/viewer@1.10.56/build/spline-viewer.js',
+  ]
+  for (const url of cdnList) {
+    try {
+      await loadScript(url)
+      splineReady.value = true
+      break
+    } catch (e) {
+      // 尝试下一个 CDN
+    }
+  }
+})
 </script>
 
 <template>
-  <!--  <Magnetic></Magnetic>-->
-  <div style="width: 100vw; height: 100vh; overflow: hidden; position: relative">
-    <!--    <spline-viewer-->
-    <!--      style="position: absolute; top: 0; left: 0; width: 100%; height: 110%"-->
-    <!--      url=""-->
-    <!--    ></spline-viewer>-->
-    <spline
-      script-url="https://unpkg.com/@splinetool/viewer@1.10.56/build/spline-viewer.js"
-      spline-url="https://prod.spline.design/5QgfcF1nxGI77Kzz/scene.splinecode"
-    ></spline>
-    <!--    <div class="login-page" :class="{ 'register-mode': loginOrRegister === 'register' }">-->
-    <!--      <div class="login-container">-->
-    <!--        <div style="display: flex; flex-direction: column">-->
+  <div style="width: 100vw; height: 100vh; overflow-y: hidden; position: relative">
+    <template v-if="splineReady && webglOk">
+      <spline-viewer
+        style="position: absolute; inset: 0; width: 100%; height: 100%"
+        url="https://prod.spline.design/5QgfcF1nxGI77Kzz/scene.splinecode"
+      />
+    </template>
+    <template v-else>
+      <!-- 兜底海报/渐变背景，确保移动端也有可见背景 -->
+      <div
+        style="
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse at top, #222, #111);
+        "
+        aria-hidden="true"
+      />
+    </template>
+
     <UserLogin
-      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
       v-if="loginOrRegister === 'login'"
       :login-form="loginForm"
       :loading="loading"
       @handle-login="onLogin"
       @on-switch="handleSwitch"
       class="login-content login-title"
-    ></UserLogin>
-    <UserRegister
       style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
+    />
+    <UserRegister
+      v-else
       @on-switch="handleSwitch"
       @handle-register="onRegister"
       :login-form="loginForm"
       :loading-register="loadingRegister"
-      v-else
       class="login-content login-title"
-    ></UserRegister>
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </div>-->
+      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
+    />
   </div>
 </template>
-
 <style scoped lang="scss">
 // 定义 sass 变量
 //$login-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

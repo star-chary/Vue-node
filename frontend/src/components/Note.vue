@@ -61,7 +61,9 @@ onUnmounted(() => {
 <template>
   <div class="ndd-mask" @click.self="emit('close')" role="dialog" aria-modal="true">
     <div class="node-detail-dialog" role="document">
-      <div class="close" @click="emit('close')">×</div>
+      <div class="close" @click="emit('close')">
+        <div>×</div>
+      </div>
 
       <!-- 用户信息栏 -->
       <div class="user-info">
@@ -76,7 +78,12 @@ onUnmounted(() => {
       <div class="content">
         <!-- 左侧 图片区域（PC 显示，移动端整合到纵向流） -->
         <div class="content-left">
-          <el-carousel style="height: 100%; width: 100%" motion-blur :autoplay="false">
+          <el-carousel
+            style="height: 100%; width: 100%"
+            height="100%"
+            motion-blur
+            :autoplay="false"
+          >
             <el-carousel-item v-for="item in props.detailData.images" :key="item._id">
               <div class="carousel-item">
                 <img :src="imgSrc(item.url)" alt="" class="carousel-img" />
@@ -177,7 +184,7 @@ onUnmounted(() => {
 }
 
 .content-left {
-  min-height: 0;
+  flex: 1;
   background: #000;
   display: flex;
   align-items: center;
@@ -243,17 +250,8 @@ onUnmounted(() => {
     border-radius: 0;
   }
   .content {
-    width: 100%;
-    height: 100vh;
-    background-color: var(--bg-color);
-    color: var(--text-color);
     flex-direction: column;
     overflow-y: auto;
-  }
-
-  .content-text,
-  .content-title {
-    color: var(--text-color);
   }
   .close {
     display: flex;
@@ -263,35 +261,24 @@ onUnmounted(() => {
     font-size: 24px;
     cursor: pointer;
     z-index: 10;
-    color: var(--text-color);
   }
   .content-left {
     width: 100%;
-    flex-shrink: 0; /* 防止被压缩 */
+    height: auto;
+    background: #fff;
   }
-
   .content-right {
     width: 100%;
     border-left: none;
-    color: var(--text-color);
-    line-height: 1.5;
   }
   .user-info {
     position: sticky;
     top: 0;
-    padding-left: 50px;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    box-sizing: border-box;
+    margin-left: 40px;
   }
   .comment-like {
-    width: 100%;
-    height: 4vh;
-    line-height: 4vh;
-    position: fixed;
+    position: sticky;
     bottom: 0;
-    background-color: var(--bg-color);
-    color: var(--text-color);
   }
 }
 </style>

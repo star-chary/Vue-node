@@ -32,6 +32,7 @@ declare module 'vue' {
     ElUpload: typeof import('element-plus/es')['ElUpload']
     Loading: typeof import('./src/components/Loading.vue')['default']
     Magnetic: typeof import('./src/components/Magnetic.vue')['default']
+    Note: typeof import('./src/components/Note.vue')['default']
     NoteDetailDialog: typeof import('./src/components/NoteDetailDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

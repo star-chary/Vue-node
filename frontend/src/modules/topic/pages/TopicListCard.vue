@@ -207,6 +207,7 @@ import { debounce } from '@/utils/debounce.ts'
 import Loading from '@/components/Loading.vue'
 import Card_Box from '@/modules/topic/components/Card_Box.vue'
 import NoteDetailDialog from '@/components/NoteDetailDialog.vue'
+import Note from '@/components/Note.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -340,8 +341,8 @@ onUnmounted(() => {
           :cover_img="p.cover_image?.url ?? ''"
           :title="p.title ?? '默认标题'"
           :username="p.author_name ?? '默认用户名'"
-          :image-height="p.cover_image?.height ?? 260"
-          :image-width="p.cover_image?.width ?? 260"
+          :image-height="p.cover_image?.height ?? 200"
+          :image-width="p.cover_image?.width ?? 200"
           :id="p._id"
           style="width: 100%"
           @open-detail="openDetail"

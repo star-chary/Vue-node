@@ -43,19 +43,18 @@ const url = computed(() => {
 })
 
 // 计算卡片图片区域的高度
-const cardWidth = 260 // 固定卡片宽度
+const cardWidth = 200 // 固定卡片宽度
 const calculateImageHeight = computed(() => {
   if (props.imageWidth && props.imageHeight) {
     // 根据原图比例计算显示高度
     const aspectRatio = props.imageHeight / props.imageWidth
     return Math.round(cardWidth * aspectRatio)
   }
-  return 260 // 默认高度
+  return 200 // 默认高度
 })
 
 // 进入详情页
 const intoDetail = (id: string) => {
-  console.log(id, 123)
   router.push({ name: 'topicListCard', query: { id } })
   emit('openDetail', id)
 }
