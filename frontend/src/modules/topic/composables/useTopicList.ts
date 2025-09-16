@@ -65,8 +65,7 @@ export const useTopicList = () => {
   // 查看
   const handleView = async (row: Row) => {
     try {
-      ElMessage.success('查看成功')
-      router.push(`/topicDetail/${row._id}`)
+      router.push({ name: 'topicListCard', params: { id: row._id } })
     } catch (e) {
       console.log(e)
     }
