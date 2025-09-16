@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
   loginForm: {
     type: Object,
@@ -13,7 +13,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['handleLogin','onSwitch'])
+const emit = defineEmits(['handleLogin', 'onSwitch'])
 
 const handleLogin = () => {
   if (!props.loginForm.username || !props.loginForm.password) {
@@ -48,11 +48,23 @@ const onSwitch = () => {
         />
       </el-form-item>
     </el-form>
-    <el-button style="width: 100%" type="primary" @click="handleLogin" :disabled="loading">{{ loading ? '登陆中...' : '登录'}}</el-button>
-    <div @click="onSwitch" style="margin-top: 1rem; font-size: 0.6rem; color: gray; cursor: pointer">
+    <el-button style="width: 100%" type="primary" @click="handleLogin" :disabled="loading">{{
+      loading ? '登陆中...' : '登录'
+    }}</el-button>
+    <div
+      @click="onSwitch"
+      style="margin-top: 1rem; font-size: 0.6rem; color: gray; cursor: pointer"
+    >
       没有账号？点击注册
     </div>
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped>
+@media (max-width: 768px) {
+  .login-content {
+    width: 100vw;
+    height: 26vh;
+  }
+}
+</style>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Magnetic from '@/components/Magnetic.vue'
 import UserLogin from '@/modules/loginAndLogout/components/UserLogin.vue'
 import UserRegister from '@/modules/loginAndLogout/components/UserRegister.vue'
 import { userLogin } from '@/modules/loginAndLogout/composables/userLogin'
+import { onMounted, ref } from 'vue'
 
 const {
   loginForm,
@@ -14,50 +14,100 @@ const {
   loadingRegister,
 } = userLogin()
 
-const onLogin = (loginData: any) => {
-  handleLogin(loginData)
+const onLogin = (loginData: any) => handleLogin(loginData)
+const onRegister = (data: any) => handleRegister(data)
+const handleSwitch = (data: string) => loginOrRegisterFn(data)
+
+// 加载状态
+const splineReady = ref(false)
+const webglOk = ref(true)
+
+function checkWebGL(): boolean {
+  try {
+    const canvas = document.createElement('canvas')
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+    return !!gl
+  } catch {
+    return false
+  }
 }
 
-// 注册
-const onRegister = (data: any) => {
-  handleRegister(data)
+async function loadScript(src: string) {
+  await new Promise<void>((resolve, reject) => {
+    const s = document.createElement('script')
+    s.type = 'module'
+    s.src = src
+    s.async = true
+    s.onload = () => resolve()
+    s.onerror = () => reject(new Error(`load failed: ${src}`))
+    document.head.appendChild(s)
+  })
 }
 
-// 切换登录或注册
-const handleSwitch = (data: string) => {
-  loginOrRegisterFn(data)
-}
+onMounted(async () => {
+  webglOk.value = checkWebGL()
+  if (!webglOk.value) return
+
+  const cdnList = [
+    'https://unpkg.com/@splinetool/viewer@1.10.56/build/spline-viewer.js',
+    'https://cdn.jsdelivr.net/npm/@splinetool/viewer@1.10.56/build/spline-viewer.js',
+  ]
+  for (const url of cdnList) {
+    try {
+      await loadScript(url)
+      splineReady.value = true
+      break
+    } catch (e) {
+      // 尝试下一个 CDN
+    }
+  }
+})
 </script>
 
 <template>
-  <Magnetic></Magnetic>
-  <div class="login-page" :class="{ 'register-mode': loginOrRegister === 'register' }">
-    <div class="login-container">
-      <div style="display: flex; flex-direction: column">
-        <UserLogin
-          v-if="loginOrRegister === 'login'"
-          :login-form="loginForm"
-          :loading="loading"
-          @handle-login="onLogin"
-          @on-switch="handleSwitch"
-          class="login-content login-title"
-        ></UserLogin>
-        <UserRegister
-          @on-switch="handleSwitch"
-          @handle-register="onRegister"
-          :login-form="loginForm"
-          :loading-register="loadingRegister"
-          v-else
-          class="login-content login-title"
-        ></UserRegister>
-      </div>
-    </div>
+  <div style="width: 100vw; height: 100vh; overflow-y: hidden; position: relative">
+    <template v-if="splineReady && webglOk">
+      <spline-viewer
+        style="position: absolute; inset: 0; width: 100%; height: 100%"
+        url="https://prod.spline.design/5QgfcF1nxGI77Kzz/scene.splinecode"
+      />
+    </template>
+    <template v-else>
+      <!-- 兜底海报/渐变背景，确保移动端也有可见背景 -->
+      <div
+        style="
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse at top, #222, #111);
+        "
+        aria-hidden="true"
+      />
+    </template>
+
+    <UserLogin
+      v-if="loginOrRegister === 'login'"
+      :login-form="loginForm"
+      :loading="loading"
+      @handle-login="onLogin"
+      @on-switch="handleSwitch"
+      class="login-content login-title"
+      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
+    />
+    <UserRegister
+      v-else
+      @on-switch="handleSwitch"
+      @handle-register="onRegister"
+      :login-form="loginForm"
+      :loading-register="loadingRegister"
+      class="login-content login-title"
+      style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)"
+    />
   </div>
 </template>
-
 <style scoped lang="scss">
 // 定义 sass 变量
-$login-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+//$login-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+//$login-gradient: #353d3d;
 $register-gradient: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
 $transition-duration: 0.3s;
 
@@ -70,25 +120,23 @@ $transition-duration: 0.3s;
   // 默认登录状态
   &:not(.register-mode) {
     .login-container {
-      background-color: $login-gradient;
+      //background-color: $login-gradient;
     }
   }
 
   // 注册状态
   &.register-mode {
     .login-container {
-      background-color: $register-gradient;
+      //background-color: $register-gradient;
     }
   }
 }
 
 .login-container {
-  width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: $login-gradient;
+  //background: $login-gradient;
   transition: background $transition-duration ease-in-out;
   padding: 1rem;
   box-sizing: border-box;
@@ -99,11 +147,18 @@ $transition-duration: 0.3s;
   }
 }
 
+.login-register {
+}
+
 .login-content {
-  background: white;
+  background: rgba(255, 255, 255, 0.1);
+  /* 毛玻璃效果 */
+  backdrop-filter: blur(10px);
+  /* 边框、阴影增加层次感 */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   padding: 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
   min-width: 300px;

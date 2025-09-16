@@ -1,0 +1,41 @@
+:root[data-theme="light"] {
+  --bg-color: #fff;
+  --text-color: #000;
+  --el-bg-color-overlay: #fff;
+  --el-menu-text-color: #000;
+  --el-menu-bg-color: #fff;
+  --el-popover-border-color: transparent;
+  --el-menu-border-color: transparent;
+}
+
+
+/*暗色主题*/
+:root[data-theme="dark"] {
+  --bg-color: #000;
+  --bg-color-gray: rgba(255, 255, 255, 0.1);
+  --text-color: #fff;
+  --hover-color: gray;
+  --el-bg-color-overlay: rgba(255, 255, 255, 0.2);
+  --el-menu-text-color: #fff;
+  --el-menu-bg-color: #000;
+  --el-menu-hover-bg-color: rgba(255, 255, 255, 0.2);
+  --el-menu-border-color: transparent; /*侧边栏边框*/
+  --el-fill-color-blank: transparent; /* 输入框背景色 */
+  --el-text-color-regular: white; /* 输入文字颜色 */
+  --el-table-bg-color: #000; /* 整体黑色 */
+  --el-table-tr-bg-color: #000; /* 行黑色 */
+  --el-table-row-hover-bg-color: #111; /* hover 时稍微亮一点 */
+  --el-text-color-primary: #fff; /* 白色文字 */
+  --el-border-color-lighter: #333; /* 深灰边框 */
+  --el-bg-color: #000;
+  --el-fill-color-light: #333; /*表格鼠标悬浮时得背景色*/
+  --el-fill-color-lighter: #333; /*上传按钮得背景色*/
+}
+/* 空数据时的背景和文字 */
+[data-theme="dark"] .el-table__empty-block {
+  background-color: #000 !important;
+}
+
+[data-theme="dark"] .el-table__empty-text {
+  color: #fff !important;
+}

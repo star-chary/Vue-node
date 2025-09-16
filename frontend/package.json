@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "deploy": "vite build && scp -r ./dist/* root@1.92.114.63:/var/www/html"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
@@ -35,6 +36,7 @@
     "eslint-plugin-vue": "~10.2.0",
     "globals": "^16.2.0",
     "prettier": "3.5.3",
+    "rollup-plugin-visualizer": "^6.0.3",
     "sass": "^1.89.2",
     "typescript": "^5.8.3",
     "unplugin-auto-import": "^19.3.0",

@@ -7,11 +7,12 @@ const total = ref(0)
 const page = ref(1)
 const pageSize = ref(10)
 const testApi = async () => {
-  const res = await api.topic.getLogs({ page: page.value, pageSize: pageSize.value,all:true })
+  const res = await api.topic.getLogs({ page: page.value, pageSize: pageSize.value, all: true })
   data.value = res.data.data
   total.value = res.data.total
   console.log(res)
 }
+
 onMounted(async () => {
   await testApi()
 })
@@ -19,8 +20,10 @@ onMounted(async () => {
 
 <template>
   <Table :data="data">
-    <template #default>开发中...</template>
+    <template #default> 开发中... </template>
   </Table>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

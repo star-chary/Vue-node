@@ -70,15 +70,16 @@ const { isEditing, formTopic, submitEdit } = useTopicStore()
   flex-direction: column;
   width: 100%;
   height: 100vh;
-  background-color: rgba(240, 240, 240, 0.8);
+  background-color: var(--bg-color);
   overflow: hidden; /* 防止整个容器滚动 */
 }
 
 .modify-topic__header {
   flex-shrink: 0; /* 固定头部，不参与滚动 */
-  background-color: white;
+  background-color: var(--bg-color);
   padding: 0 20px;
   box-sizing: border-box;
+  color: var(--text-color);
 }
 
 .modify-topic__spacer {
@@ -96,6 +97,7 @@ const { isEditing, formTopic, submitEdit } = useTopicStore()
 
   &--gray {
     color: gray;
+
   }
 
   &--active {
@@ -135,10 +137,11 @@ const { isEditing, formTopic, submitEdit } = useTopicStore()
 }
 
 .modify-topic__detail {
-  background-color: white;
+  background-color: var(--bg-color);
   min-height: calc(100% - 0px);
   border-radius: 8px;
   overflow: hidden;
+  color: var(--text-color);
 }
 
 .modify-topic__header-info {
@@ -165,6 +168,7 @@ const { isEditing, formTopic, submitEdit } = useTopicStore()
   line-height: 1.8;
   font-size: 16px;
   color: #333;
+  background-color: var(--bg-color);
 
   p {
     margin: 0 0 20px 0;

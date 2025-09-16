@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { formatISOTime } from '@/utils/format.ts'
-import * as timers from 'node:timers'
+import { getDeviceType } from '@/utils/getDeviceType.ts'
+
 interface Columns {
   ip: String
   location: {
@@ -42,6 +43,10 @@ const columns = ref([
     label: '时间',
     prop: 'time',
   },
+  {
+    label: '设备',
+    prop: 'userAgent',
+  },
 ])
 </script>
 <template>
@@ -61,6 +66,9 @@ const columns = ref([
           <template v-if="item.prop === 'time'" #default="escope">
             {{ formatISOTime(escope.row.time) }}
           </template>
+          <template v-if="item.prop === 'userAgent'" #default="escope">
+            {{ getDeviceType(escope.row.userAgent) }}
+          </template>
         </el-table-column>
       </el-table>
       <!--      <el-pagination-->
@@ -73,7 +81,7 @@ const columns = ref([
       <!--        :background="background"-->
       <!--        layout="total, sizes, prev, pager, next, jumper"-->
       <!--        :total="400"-->
-      <!--        @size-change="handleSizeChange"-->
+      <!--        @s`ize-change="handleSizeChange"-->
       <!--        @current-change="handleCurrentChange"-->
       <!--      />-->
     </div>
@@ -86,15 +94,16 @@ const columns = ref([
   width: 100%;
   height: 100vh;
   padding: 20px;
-  background-color: gray;
+  background-color: var(--bg-color);
   box-sizing: border-box;
 }
 
 .slot-box {
   width: 100%;
   height: 30vh;
-  background-color: white;
+  background-color: var(--bg-color);
   margin-bottom: 16px;
+  color: var(--text-color);
 }
 .table-box {
   display: flex;
@@ -103,5 +112,6 @@ const columns = ref([
   height: 70vh;
   background-color: white;
   overflow: auto;
+  box-shadow: 0 0 10px rgba(173, 40, 40, 0.1);
 }
 </style>
