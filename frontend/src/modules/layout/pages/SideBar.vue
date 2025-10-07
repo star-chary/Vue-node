@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { logout } from '@/utils/auth.ts'
 import ThemeSwitch from '@/components/ThemeSwitch.vue'
+import { getImgUrl } from '@/utils/getDeviceType.ts'
+import api from '@/api'
+import { authUtils } from '@/utils/auth.ts'
 
 const route = useRoute()
 const router = useRouter()
@@ -11,6 +14,19 @@ const activeIndex = computed(() => String(route.name ?? ''))
 const handleLogout = () => {
   logout()
 }
+// 用户头像
+const avatarUrl = ref('')
+// 用户名
+const userName = ref('')
+
+onMounted(async () => {
+  // 获取用户头像
+  const res = await api.user.getUserInfo()
+  avatarUrl.value = res.data.data.avatar_url
+
+  // 获取用户名
+  userName.value = JSON.parse(authUtils.getUserInfo('userInfo')).username
+})
 </script>
 
 <template>
@@ -54,11 +70,13 @@ const handleLogout = () => {
     >
       <template #reference>
         <div class="more">
-          <el-icon><More /></el-icon><span style="margin-left: 6px">更多</span>
+          <div>
+            <el-avatar :src="getImgUrl(avatarUrl)"></el-avatar>
+          </div>
+          <div class="user-name">{{ userName }}</div>
         </div>
       </template>
       <div class="more-panel">
-        <!--        <button class="more-item">切换主题</button>-->
         <ThemeSwitch></ThemeSwitch>
         <div class="more-item" @click="handleLogout">退出登录</div>
       </div>
@@ -80,6 +98,14 @@ const handleLogout = () => {
   color: var(--text-color);
   font-size: 14px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-name {
+  font-size: 16px;
+  color: var(--text-color);
 }
 
 /* 弹层内容样式（宽度由 Popover 的 :width 控制，这里做内部排版） */
