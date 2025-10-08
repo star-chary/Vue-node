@@ -4,7 +4,8 @@ module.exports = app => {
 
   const TopicSchema = new Schema({
     title: String,
-    author_name: { type: String },
+    // author_name: { type: String },
+    // author_avatar: { type: String }, // 用户头像
     author_id: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // 关联用户 ID
     create_at: { type: Date, default: Date.now },
     update_at: { type: Date, default: Date.now },
