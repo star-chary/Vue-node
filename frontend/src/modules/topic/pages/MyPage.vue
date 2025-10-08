@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { authUtils } from '@/utils/auth.ts'
 import { useMyPage } from '@/modules/topic/composables/myPage.ts'
-import * as process from 'node:process'
-
+import CustomUploader from '@/components/CustomUploader.vue'
 const { tableHead, topicData, handleAction, page, handleCurrentChange, handleSizeChange, total } =
   useMyPage()
+
+
+// 使用 ref 绑定一个字符串，表示头像 URL
+const userAvatar = ref('');
 
 </script>
 <template>
@@ -20,6 +23,15 @@ const { tableHead, topicData, handleAction, page, handleCurrentChange, handleSiz
         <el-tag size="small">{{ authUtils.isAuthenticated() }}</el-tag>
       </el-descriptions-item>
     </el-descriptions>
+    <div>
+      <CustomUploader
+        v-model="userAvatar"
+        upload-url="/api/user/upload-avatar"
+        file-key="avatar"
+        upload-button-text="保存新头像"
+        :extra-data="{ userId: 1001 }"
+      ></CustomUploader>
+    </div>
     <div class="table-container">
       <el-table :data="topicData" style="width: 100%">
         <el-table-column
@@ -27,7 +39,6 @@ const { tableHead, topicData, handleAction, page, handleCurrentChange, handleSiz
           :key="index"
           :prop="item.prop"
           :label="item.label"
-          :show-overflow-tooltip="item.prop === 'content'"
         >
           <template v-if="item.prop === 'action'" #default="escope">
             <el-button
@@ -89,7 +100,7 @@ const { tableHead, topicData, handleAction, page, handleCurrentChange, handleSiz
   }
 
   &::-webkit-scrollbar-track {
-    background:var(--bg-color);
+    background: var(--bg-color);
   }
 
   &::-webkit-scrollbar-thumb {

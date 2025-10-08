@@ -72,9 +72,9 @@ const route = useRoute()
                   <el-avatar>用户{{ item.author_name }}</el-avatar>
                 </div>
                 <div class="comment-content">
-                  <div class="comment-user">{{ item.author_name}}</div>
+                  <div class="comment-user">{{ item.author_name }}</div>
                   <div class="comment-text">
-                 {{ item.comment_content}}
+                    {{ item.comment_content }}
                   </div>
                   <div class="comment-time">{{ formatTime(item.create_at) }}</div>
                 </div>

@@ -83,7 +83,6 @@ export const useCreateTopic = () => {
 
         // 发起新建主题请求
         const res = await api.topic.createTopic(formData)
-        console.log(res, 8888)
 
         if (res.data.code === 200 || res.status === 200) {
           ElMessage.success('创建成功')

@@ -59,4 +59,23 @@ export const topicApi = {
       params,
     })
   },
+  // 发送评论
+  sendComment: (data?: object) => {
+    return request({
+      url: '/api/comments',
+      method: 'post',
+      data,
+    })
+  },
+  // 上传头像
+  uploadAvatar: (data?: object) => {
+    return request({
+      url: '/api/user/avatar',
+      method: 'post',
+      data,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    })
+  }
 }

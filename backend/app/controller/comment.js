@@ -11,13 +11,13 @@ class CommentController extends Controller {
     try {
       ctx.status = 200;
       ctx.body = {
-        code: 200,
         msg: '创建成功',
+        status: 200,
       };
     } catch (e) {
       ctx.status = 400;
       ctx.body = {
-        code: 400,
+        status: 400,
         msg: '创建失败',
         data: null,
       };

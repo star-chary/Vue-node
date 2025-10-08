@@ -3,7 +3,6 @@ import { useRouter } from 'vue-router'
 import api from '@/api'
 import { authUtils } from '@/utils/auth.ts'
 import { ElMessage } from 'element-plus'
-import { useUserInfoStore } from '@/stores/userInfo.ts'
 
 // 定义登录表单的类型
 interface LoginForm {

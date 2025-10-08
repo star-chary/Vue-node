@@ -109,12 +109,24 @@ class TopicController extends Controller {
         }
       }
 
+      // findOne() 返回的是一个 Mongoose 文档对象（即使只包含一个字段），而不是一个简单的 URL 字符串。
+      // avatar_url 变量将包含一个 Mongoose 文档，例如：{ _id: '...', avatar_url: 'http://...' }
+      // const profileDoc = await ctx.model.UserProfile.findOne({ user_id: ctx.user.id })
+      //   .select('avatar_url');
+      //
+      // // 从文档中提取真正的 URL 字符串
+      // let avatarUrl = '';
+      // if (profileDoc && profileDoc.avatar_url) {
+      //   avatarUrl = profileDoc.avatar_url;
+      // }
+      // console.log(profileDoc, 999999);
       // 构建主题数据
       const topicData = {
         title: ctx.request.body.title,
+        // author_avatar: avatarUrl,
         content: ctx.request.body.content,
         author_id: ctx.user.id,
-        author_name: ctx.user.username,
+        // author_name: ctx.user.username,
         images,
         cover_image: images.length > 0 ? {
           url: images[0].url,
@@ -214,7 +226,7 @@ class TopicController extends Controller {
       // 通过 jwt 验证获取当前用户信息
       // const user = await ctx.service.user.getCurrentUser();
       // 从查询参数或请求体获取分页参数
-      const { page = 1, pageSize = 10 } = ctx.request.body || {};
+      const { page = 1, pageSize = 20 } = ctx.request.body || {};
 
       const result = await ctx.service.topic.getMyTopic(ctx.user.id, page, pageSize);
       // 使用验证后的用户 ID 查询数据

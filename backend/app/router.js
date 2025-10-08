@@ -43,4 +43,11 @@ module.exports = app => {
   router.post('/getCommentList', jwt, controller.comment.getCommentList);
 
   router.get('/logs', controller.log.getLogs);
+
+  // 新增评论
+  router.post('/api/comments', jwt, controller.commentTreeData.createComment);
+  // 用户上传头像
+  router.post('/api/user/avatar', jwt, controller.uploadAvatar.uploadAvatar);
+  // 获取用户信息
+  router.get('/api/user/profile', jwt, controller.userProfile.getUserProfile);
 };
