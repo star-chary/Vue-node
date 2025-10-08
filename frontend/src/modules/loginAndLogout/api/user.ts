@@ -19,4 +19,11 @@ export const userApi = {
       data,
     })
   },
+  // 获取用户信息
+  getUserInfo: () => {
+    return request({
+      url: '/api/user/profile',
+      method: 'get',
+    })
+  },
 }

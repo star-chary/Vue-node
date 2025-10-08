@@ -1,3 +1,4 @@
+import { UserInfo } from '@/types'
 const TOKEN_KEY = 'Accesstoken'
 
 interface AuthUtils {
@@ -5,7 +6,7 @@ interface AuthUtils {
   setToken: (token: any) => void
   removeToken: (token_key?: string) => void
   isAuthenticated: () => boolean
-  getUserInfo: (key: string) => string | null | object
+  getUserInfo: (key: string) =>object | null | string
   setUserInfo: (key: string, value: any) => void
   removeUserInfo: (key: string) => void
 }

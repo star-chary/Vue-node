@@ -41,7 +41,7 @@ const {
           :on-preview="handlePictureCardPreview"
           :on-remove="handleRemove"
         >
-          <el-icon><Plus /></el-icon>
+                    <el-icon><Plus /></el-icon>
         </el-upload>
       </el-form-item>
     </el-form>

@@ -23,10 +23,9 @@ onMounted(async () => {
   // 获取用户头像
   const res = await api.user.getUserInfo()
   avatarUrl.value = res.data.data.avatar_url
-
-  // 获取用户名
-  userName.value = JSON.parse(authUtils.getUserInfo('userInfo')).username
 })
+// 获取用户名
+userName.value = JSON.parse(authUtils.getUserInfo('userInfo')).username
 </script>
 
 <template>

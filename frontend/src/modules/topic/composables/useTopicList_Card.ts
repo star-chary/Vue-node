@@ -10,7 +10,7 @@ export const useTopicList_Card = () => {
   // 初始参数
   const page = reactive<Page>({
     page: 1,
-    pageSize: 10,
+    pageSize: 20,
   })
   // 如果加载完毕，或者没有数据
   const isEnd = ref(false)

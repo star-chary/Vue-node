@@ -201,19 +201,21 @@
 <!--- vue3-masonry-wall 库版-->
 <script setup lang="ts">
 import { nextTick, onMounted, onUnmounted, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import MasonryWall from '@yeger/vue-masonry-wall'
 import api from '@/api'
 import { debounce } from '@/utils/debounce.ts'
 import Loading from '@/components/Loading.vue'
 import Card_Box from '@/modules/topic/components/Card_Box.vue'
 import NoteDetailDialog from '@/components/NoteDetailDialog.vue'
-import Note from '@/components/Note.vue'
+import { authUtils } from '@/utils/auth.ts'
 
+// 用户信息
 const router = useRouter()
 const route = useRoute()
 const photos = ref<any[]>([])
 let page = 1
-let pageSize = 10
+let pageSize = 20
 const loading = ref(false)
 const finish = ref(false)
 const scrollContainer = ref<HTMLElement | null>(null)
@@ -262,7 +264,7 @@ const fetchArticleList = async (params?: object) => {
 
     const res = await api.topic.getTopicList(params)
     const list = res.data?.data?.list ?? []
-
+    console.log(res, 22)
     // 可选：如果后端没有更多了，设置 finish
     if (!Array.isArray(list) || list.length === 0) {
       finish.value = true
@@ -299,11 +301,14 @@ const handleScroll = debounce(() => {
   }
 }, 200)
 
+// 用户头像
+const avatar_url = ref('')
 onMounted(async () => {
+  avatar_url.value = JSON.parse(authUtils.getUserInfo('userInfo')).avatar
+  console.log(avatar_url.value, 111)
   await fetchArticleList({ page, pageSize })
   // 初次进入，若路由带了 :id，自动打开
   const initialId = route.params.id as string | undefined
-  console.log(initialId, 88)
   if (initialId) {
     openDetail(initialId)
   }
@@ -340,6 +345,7 @@ onUnmounted(() => {
         <Card_Box
           :cover_img="p.cover_image?.url ?? ''"
           :title="p.title ?? '默认标题'"
+          :avatar="p.author_avatar || '1'"
           :username="p.author_name ?? '默认用户名'"
           :image-height="p.cover_image?.height ?? 200"
           :image-width="p.cover_image?.width ?? 200"

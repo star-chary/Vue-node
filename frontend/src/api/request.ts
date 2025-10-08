@@ -2,12 +2,13 @@
 // import type {ApiResponse} from '@/api/types/index.js'
 import axios from 'axios'
 import { authUtils } from '@/utils/auth.ts'
+import { ElMessage } from 'element-plus'
 
 export const request = axios.create({
   // baseURL: 'http://1.92.114.63:7001',
   // baseURL: 'http://localhost:7001',
   // 使用环境变量中的 baseURL
-  baseURL:import.meta.env.VITE_API_BASE_URL as string,
+  baseURL: import.meta.env.VITE_API_BASE_URL as string,
   timeout: 50000,
   withCredentials: true,
   headers: {
@@ -35,6 +36,12 @@ request.interceptors.response.use(
     return response
   },
   (error) => {
+    if (error.response.data.code === 401) {
+      ElMessage({
+        message: error.response.data.msg,
+        type: 'error',
+      })
+    }
     // 处理错误
     // if (error.response.status === 401) {
     //   // 401 状态码，清除 token

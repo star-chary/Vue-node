@@ -10,6 +10,11 @@ const props = defineProps({
     type: String,
     default: '默认用户名',
   },
+  // 用户头像
+  avatar: {
+    type: String,
+    default: '',
+  },
   // 显示图片
   cover_img: {
     type: String,
@@ -40,6 +45,10 @@ const router = useRouter()
 const base_img_url = import.meta.env.VITE_API_BASE_URL
 const url = computed(() => {
   return `${base_img_url}${props.cover_img}`
+})
+const avatar_url = computed(() => {
+  const avatar = props.avatar.replace('public', '')
+  return `${base_img_url}${avatar}`
 })
 
 // 计算卡片图片区域的高度
@@ -80,7 +89,7 @@ const intoDetail = (id: string) => {
       <div class="user-avatar-name">
         <!--    用户头像-->
         <div class="user-avatar" style="cursor: pointer">
-          <el-avatar :src="url" />
+          <el-avatar :src="avatar_url" />
         </div>
         <div class="user-name">{{ username }}</div>
       </div>

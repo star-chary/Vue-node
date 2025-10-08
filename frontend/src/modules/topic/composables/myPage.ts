@@ -49,7 +49,6 @@ export const useMyPage = () => {
   const handleGetList = async () => {
     const res = await api.topic.getMyTopic(page)
     topicData.value = res.data.data.list
-    console.log(res,'my')
     total.value = res.data.data.total
   }
   const handleSizeChange = async (size: number) => {

@@ -14,6 +14,7 @@ const {
   loadingRegister,
 } = userLogin()
 
+
 const onLogin = (loginData: any) => handleLogin(loginData)
 const onRegister = (data: any) => handleRegister(data)
 const handleSwitch = (data: string) => loginOrRegisterFn(data)
@@ -61,6 +62,7 @@ onMounted(async () => {
       // 尝试下一个 CDN
     }
   }
+
 })
 </script>
 

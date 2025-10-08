@@ -10,6 +10,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import { visualizer } from 'rollup-plugin-visualizer'
+import ElementPlus from 'unplugin-element-plus/vite'
+
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -17,6 +19,7 @@ export default defineConfig({
     vue(),
     vueDevTools(),
     visualizer({ open: true }),
+    ElementPlus({ useSource: true }), // 自动导入样式
     AutoImport({
       resolvers: [
         ElementPlusResolver(), // 自动导入图标组件
