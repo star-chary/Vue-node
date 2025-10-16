@@ -9,7 +9,8 @@ module.exports = app => {
     userAvatar: { type: String, required: true }, // 用户头像
     postId: { type: mongoose.Schema.Types.ObjectId, ref: 'Topic', required: true }, // 归属的文章/笔记
     parentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Comment', default: null }, // 父评论
-    replyTo: { type: mongoose.Schema.Types.ObjectId, ref: 'Comment', default: null }, // 回复某条评论
+    // replyTo: { type: mongoose.Schema.Types.ObjectId, ref: 'Comment', default: null }, // 回复某条评论
+    replyTo: { type: mongoose.Schema.Types.ObjectId, ref: 'CommentTreeData', default: null }, // 回复某条评论
     replyToUserName: { type: String }, // 回复的用户名，用于显示"回复@用户名"
     likeCount: { type: Number, default: 0 }, // 点赞数
     replyCount: { type: Number, default: 0 }, // 回复数量

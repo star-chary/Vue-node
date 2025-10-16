@@ -2,7 +2,7 @@ logs/
 npm-debug.log
 yarn-error.log
 node_modules/
-*-lock.json
+#*-lock.json
 *-lock.yaml
 yarn.lock
 coverage/
@@ -13,3 +13,6 @@ run/
 *.un~
 typings/
 .nyc_output/
+app/public/uploads
+.env.development
+.env.production

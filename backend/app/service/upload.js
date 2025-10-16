@@ -133,6 +133,7 @@ class FileService extends Service {
       const stats = await fs.stat(finalPath);
 
       // 6. 构造访问 URL
+      // const relativeUrl = `/uploads/${bizType}/${dateDir}/${filename}`;
       const relativeUrl = `/uploads/${bizType}/${dateDir}/${filename}`;
 
       return {

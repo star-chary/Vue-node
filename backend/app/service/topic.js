@@ -146,7 +146,15 @@ class TopicService extends Service {
     if (!id) {
       return null;
     }
-    const detail = await ctx.model.Topic.findById({ _id: id });
+    const detail = await ctx.model.Topic.findById({ _id: id })
+      .populate({
+        path: 'author',
+        select: 'username',
+        populate: {
+          path: 'profile',
+          select: 'nickname avatar_url',
+        },
+      });
 
     if (!detail) {
       const error = new Error('主题不存在');

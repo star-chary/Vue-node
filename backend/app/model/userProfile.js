@@ -10,7 +10,7 @@ module.exports = app => {
     avatar_url: { type: String, default: '' },
 
     // ✅ 昵称 (可以和 username 不同)
-    nickname: { type: String, default: '' },
+    // nickname: { type: Schema.Types.ObjectId, ref: 'User', default: '' },
 
     // ✅ 个人简介/签名
     bio: { type: String, default: '' },
@@ -29,6 +29,22 @@ module.exports = app => {
 
     update_at: { type: Date, default: Date.now },
   });
+  // 常用查询：按 user_id 取资料
+  UserProfileSchema.index({ user_id: 1 }, { unique: true });
+
+  // 虚拟关联到 User，便于 populate 时拿到 username
+  UserProfileSchema.virtual('user', {
+    ref: 'User',
+    localField: 'user_id',
+    foreignField: '_id',
+    justOne: true,
+  });
+  // 虚拟 nickname：引用 user.username（需要在查询时 populate('user')）
+  UserProfileSchema.virtual('nickname')
+    .get(function() {
+      return this.user ? this.user.username : undefined;
+    });
+
 
   return mongoose.model('UserProfile', UserProfileSchema);
 };
