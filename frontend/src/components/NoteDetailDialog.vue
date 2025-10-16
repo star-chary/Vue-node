@@ -3,6 +3,7 @@ import { onMounted, onUnmounted } from 'vue'
 import api from '@/api'
 import { authUtils } from '@/utils/auth.ts'
 import type { UserInfo } from '@/types'
+import { getImgUrl } from '@/utils/getDeviceType.ts'
 
 interface Image {
   url: string
@@ -20,9 +21,18 @@ interface DetailProps {
   _id: string
   title?: string
   content?: string
+  author: {
+    username: string
+    profile: {
+      avatar_url: string
+    }
+  }
 }
 
-const props = defineProps<{ detailData: DetailProps }>()
+// const props = defineProps<{ detailData: DetailProps }>()
+const props = defineProps({
+  detailData: Object | null,
+})
 const router = useRouter()
 const route = useRoute()
 const emit = defineEmits<{
@@ -38,7 +48,6 @@ const detailClose = (e?: KeyboardEvent | MouseEvent) => {
   }
   emit('close')
 }
-
 const base_img_url = import.meta.env.VITE_API_BASE_URL
 function imgSrc(path: string) {
   try {
@@ -57,7 +66,6 @@ const isFocus = ref(false)
 const user_info = JSON.parse(authUtils.getUserInfo('userInfo') as string)
 
 const submitComment = async () => {
-  console.log(route, 999)
   // 如果输入框有内容
   if (comment_content.value.trim() !== '') {
     // 发起评论请求
@@ -68,8 +76,7 @@ const submitComment = async () => {
       userName: user_info.username,
       userAvatar: '',
       parentId: '',
-      replyTo:'',
-
+      replyTo: '',
     })
     console.log(res, 111)
     comment_content.value = ''
@@ -80,7 +87,6 @@ const cancelComment = () => {
   comment_content.value = ''
   isFocus.value = false
 }
-
 onMounted(() => {
   window.addEventListener('keydown', detailClose)
   _prevBodyOverflow = document.body.style.overflow || ''
@@ -101,8 +107,10 @@ onUnmounted(() => {
       <!-- 用户信息栏 -->
       <div class="user-info">
         <div class="user-avatar-name">
-          <div class="user-avatar"></div>
-          <div class="user-name">用户名</div>
+          <el-avatar :src="getImgUrl(detailData.author?.profile.avatar_url)"></el-avatar>
+          <div :key="detailData?.author?.id" class="user-name">
+            {{ detailData.author?.username }}
+          </div>
         </div>
         <div class="follow">关注</div>
       </div>
@@ -122,7 +130,7 @@ onUnmounted(() => {
           >
             <el-carousel style="width: 100%" motion-blur :autoplay="false">
               <el-carousel-item
-                v-for="item in props.detailData.images"
+                v-for="item in detailData.images"
                 :key="item._id"
                 :style="{ aspectRatio: `${item.width} / ${item.height} ` }"
               >
@@ -141,8 +149,8 @@ onUnmounted(() => {
         <div class="content-right">
           <div class="right-scroll">
             <div class="detail-body">
-              <div class="content-title">{{ props.detailData.title }}</div>
-              <div class="content-text">{{ props.detailData.content }}</div>
+              <div class="content-title">{{ detailData.title }}</div>
+              <div class="content-text">{{ detailData.content }}</div>
             </div>
             <div class="comment-box">开发中...</div>
           </div>

@@ -1,8 +1,17 @@
 <script setup>
 // 1. 文件列表：必须是响应式数据，用于 v-model 绑定
-import axios from 'axios'
 import api from '@/api'
 import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const props = defineProps({
+  // 允许上传的图片最大数量
+  limit: {
+    type: Number,
+    default: 1,
+  },
+})
 
 const fileList = ref([])
 // 2. 预览相关的状态
@@ -19,7 +28,7 @@ const handleRemove = (file) => {
   // 你的业务逻辑（例如：调用后端接口删除文件）：
 }
 const handleExceed = () => {
-  ElMessage.warning('只能上传一张图片！')
+  ElMessage.warning(`只能上传${props.limit}张图片！`)
 }
 
 const loading = ref(false)
@@ -37,16 +46,16 @@ const submitUpload = async () => {
   // 发起头像上传接口
   try {
     const res = await api.topic.uploadAvatar(formData)
-    if (res.data.code !== 200) {
-      // 上传成功，清空数组
-      fileList.value.length = 0
-      // 提示上传成功
-      ElMessage({
-        message: res.data.msg,
-        type: 'success',
-      })
-      loading.value = false
-    }
+    if (res.data.code !== 200) return
+    // 提示上传成功
+    ElMessage({
+      message: res.data.msg,
+      type: 'success',
+    })
+    // 上传成功，清空数组
+    fileList.value.length = 0
+    loading.value = false
+     router.go(0)
   } catch (e) {
     console.log(e, 88888)
     ElMessage({
@@ -56,14 +65,15 @@ const submitUpload = async () => {
   }
 }
 
-
 </script>
 <template>
-  <div>头像：</div>
+  <template v-if="$slots.avatar">
+    <slot name="avatar"></slot>
+  </template>
   <el-upload
     v-model:file-list="fileList"
     action="#"
-    :limit="3"
+    :limit="limit"
     :auto-upload="false"
     list-type="picture-card"
     ref="uploadRef"

@@ -27,7 +27,7 @@ const {
             v-no-space
             v-model="inputData"
             clearable
-            placeholder="请输入查询文章"
+            placeholder="请输入查询文章标题"
             @keyup.enter="handleSearchEnter(inputData)"
           >
             <template #append>
@@ -124,7 +124,6 @@ const {
         flex: 1;
         background-color: var(--bg-color);
         min-height: 0;
-
 
         // 自定义表格内容样式
         :deep(.el-table__body-wrapper) {

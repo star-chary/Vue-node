@@ -2,7 +2,7 @@ import type { Router } from 'vue-router'
 import { authUtils } from '@/utils/auth.ts'
 
 // 白名单，不需要登录就能访问的页面
-const WHITE_LIST = ['/login']
+const WHITE_LIST = ['/login','/homePage']
 
 export function setupRouterGuards(router: Router) {
   router.beforeEach((to, from, next) => {
@@ -11,7 +11,8 @@ export function setupRouterGuards(router: Router) {
 
     // 如果已经登录，且访问登录页，则重定向首页
     if (isAuthenticated && to.path === '/login') {
-      next('/mainlayout')
+      // next('/mainlayout')
+      next('/topicListCard')
       return
     } else if (isAuthenticated && to.path === '/') {
       next('/mainlayout')
@@ -27,7 +28,7 @@ export function setupRouterGuards(router: Router) {
     // 如果未登录
     if (!isAuthenticated) {
       next({
-        path: '/login',
+        path: '/homePage',
         query: { redirect: to.fullPath }, // 保存原来要访问的页面
       })
       return

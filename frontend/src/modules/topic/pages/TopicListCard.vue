@@ -234,6 +234,10 @@ const openDetail = async (id: string) => {
   // const res = await api.topic.getTopicDetail(id)
   // detailData.value = res.data.data
 
+  if (detailData.value) {
+    detailData.value = {}
+  }
+
   // 如果路由里不是当前 id，则同步到 /topicListCard/:id（避免重复 push）
   if (route.params.id !== id) {
     router.replace({ name: 'topicListCard', params: { id } })
@@ -305,7 +309,6 @@ const handleScroll = debounce(() => {
 const avatar_url = ref('')
 onMounted(async () => {
   avatar_url.value = JSON.parse(authUtils.getUserInfo('userInfo')).avatar
-  console.log(avatar_url.value, 111)
   await fetchArticleList({ page, pageSize })
   // 初次进入，若路由带了 :id，自动打开
   const initialId = route.params.id as string | undefined

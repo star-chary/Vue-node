@@ -5,10 +5,8 @@ import CustomUploader from '@/components/CustomUploader.vue'
 const { tableHead, topicData, handleAction, page, handleCurrentChange, handleSizeChange, total } =
   useMyPage()
 
-
 // 使用 ref 绑定一个字符串，表示头像 URL
-const userAvatar = ref('');
-
+const userAvatar = ref('')
 </script>
 <template>
   <div class="myPage-container">
@@ -29,8 +27,11 @@ const userAvatar = ref('');
         upload-url="/api/user/upload-avatar"
         file-key="avatar"
         upload-button-text="保存新头像"
+        limit="1"
         :extra-data="{ userId: 1001 }"
-      ></CustomUploader>
+      >
+        <template #avatar><div class="change-avatar">更换头像：</div></template>
+      </CustomUploader>
     </div>
     <div class="table-container">
       <el-table :data="topicData" style="width: 100%">
@@ -87,6 +88,10 @@ const userAvatar = ref('');
   height: auto; /* 改为自适应高度 */
   min-height: 100px;
   margin-bottom: 20px;
+}
+
+.change-avatar {
+  color: var(--text-color);
 }
 
 .table-container {

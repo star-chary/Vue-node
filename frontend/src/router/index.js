@@ -49,6 +49,13 @@ const router = createRouter({
       ],
     },
     ...loginRoutes,
+    {
+      path: '/homePage',
+      name: 'homePage',
+      component: () => import('@/modules/homePage/index.vue'),
+    },
+    // 默认跳转首页
+    { path: '/:pathMatch(.*)*', redirect: '/homePage' },
   ],
 })
 
