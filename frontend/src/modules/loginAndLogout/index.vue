@@ -41,7 +41,7 @@ async function loadScript(src: string) {
     s.async = true
     s.onload = () => resolve()
     s.onerror = () => reject(new Error(`load failed: ${src}`))
-    document.head.appendChild(s)
+    document.body.appendChild(s)
   })
 }
 
