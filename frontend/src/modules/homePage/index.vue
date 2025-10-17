@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import HomeHeader from '@/modules/homePage/component/homeHeader.vue'
-import HomeBody from '@/modules/homePage/component/homeBody.vue'
+import HomeHeader from '@/modules/homePage/component/HomeHeader.vue'
+import HomeBody from '@/modules/homePage/component/HomeBody.vue'
+import HomeBody2 from '@/modules/homePage/component/HomeBody2.vue'
 </script>
 
 <template>
@@ -10,6 +11,7 @@ import HomeBody from '@/modules/homePage/component/homeBody.vue'
     </header>
     <main>
       <HomeBody></HomeBody>
+      <HomeBody2></HomeBody2>
     </main>
   </div>
 </template>
@@ -22,28 +24,5 @@ import HomeBody from '@/modules/homePage/component/homeBody.vue'
   min-height: 100vh;
   background-color: black;
 }
-.container::before {
-  content: '';
-  position: absolute;
-  bottom: -10%;
-  left: -5%;
-  color: white;
-  width: 20rem;
-  height: 20rem;
-  border-radius: 50%;
-  background-color: #8665e4;
-  filter: blur(150px);
-}
-.container::after{
-  content: '';
-  position: absolute;
-  top: 10%;
-  right: -5%;
-  color: white;
-  width: 20rem;
-  height: 20rem;
-  border-radius: 50%;
-  background-color: #8665e4;
-  filter: blur(110px);
-}
+
 </style>

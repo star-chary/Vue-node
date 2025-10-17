@@ -1,17 +1,19 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+const router = useRouter()
 </script>
 
 <template>
   <div class="container-body">
     <div class="container-body-left">
-      <h1>Step Into Future:A 3D Experience Like Never Before</h1>
+      <h1>全栈驱动的创意空间 从前端到后端，构建属于你的数字体验</h1>
       <p>
-        Lorem doahwo doaihwod dawijdpaj dawkhd wahdoawhd oaiwhdoawhd oawhdoawhd doawhdohao
-        aohdoahdao aodhoahd aoahfoa whfoa owahfowa o
+        “基于 Vue3 + Node.js + MongoDB
+        构建的全栈项目，涵盖用户系统、评论模块、文件上传与数据展示，整合前后端完整流程。
       </p>
       <div class="btn">
-        <button id="contact">Contact</button>
-        <button id="started">Started</button>
+        <button id="contact">联系我</button>
+        <button @click="router.push('/login')" id="started">进入体验</button>
       </div>
     </div>
     <div class="container-body-right"></div>
@@ -21,44 +23,46 @@
 <style scoped>
 .container-body {
   height: calc(100vh - 60px);
+  position: relative;
 }
 
 .container-body-left {
-  width: 60%;
+  width: clamp(300px, 50%, 600px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: start;
-  padding: 2rem 4rem 2rem 2rem;
-  gap: 1rem;
+  padding: 6rem 4rem 2rem 4rem;
+  gap: clamp(1rem, 2vw, 2rem);
 }
 
 .container-body-left h1 {
   color: white;
-  font-size: 4rem;
+  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 500;
 }
 
 .container-body-left p {
   width: 80%;
-  font-size: 0.9rem;
-  font-weight: 300;
+  font-size: 1rem;
+  font-weight: 400;
   color: gray;
   mix-blend-mode: exclusion;
 }
 .btn {
   position: relative;
   display: flex;
-  gap: 2rem;
+  gap: clamp(1rem, 2vw, 2rem);
   margin-top: 1rem;
   z-index: 1;
 }
-#contact ,#started{
+#contact,
+#started {
   position: relative;
-  width: 12rem;
-  padding:1rem 2rem 1rem 2rem;
-  font-size: 1.3rem;
-  border-radius: 30px;
+  width: clamp(150px, 6rem, 200px);
+  padding: 1rem 2rem 1rem 2rem;
+  font-size: clamp(1rem, 1vw, 1.2rem);
+  border-radius: clamp(1rem, 2vw, 2rem);
   background-color: white;
   color: #0b021c;
   overflow: hidden;
@@ -67,28 +71,54 @@
   border: 2px solid white;
   z-index: 2;
 }
-#started{
+#started {
   background-color: transparent;
   color: white;
 }
-#started:before,#contact:before{
-  content: "";
+#started:before,
+#contact:before {
+  content: '';
   position: absolute;
- inset: 0;
+  inset: 0;
   background-color: white;
   clip-path: circle(0% at 50% 50%);
   z-index: -1;
   transition: 0.75s;
 }
-#started:hover::before,#contact:hover::before{
+#started:hover::before,
+#contact:hover::before {
   clip-path: circle(100% at 50% 50%);
 }
-#started:hover{
+#started:hover {
   color: #0b021c;
 }
-#contact::before{
+#contact::before {
   background-color: #3e108a;
   filter: blur(6px);
 }
 
+.container-body::before {
+  content: '';
+  position: absolute;
+  bottom: clamp(-10%, -20%, -30%);
+  left: clamp(-1%, -5%, -10%);
+  color: white;
+  width: clamp(100px, 15vw, 200px);
+  height: clamp(100px, 15vw, 200px);
+  border-radius: 50%;
+  background-color: #8665e4;
+  filter: blur(150px);
+}
+.container-body:after {
+  content: '';
+  position: absolute;
+  top: clamp(-10%, 20%, 30%);
+  right: clamp(-2%, -2%, -2%);
+  color: white;
+  width: clamp(100px, 15vw, 200px);
+  height: clamp(100px, 15vw, 200px);
+  border-radius: 50%;
+  background-color: #8665e4;
+  filter: blur(110px);
+}
 </style>
