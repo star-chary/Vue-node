@@ -231,6 +231,8 @@ onMounted(() => {
   <div class="empty">开发中...</div>
   <div class="empty">开发中...</div>
   <div>测试 git 原子提交1</div>
+  <div> 测试 git 原子提交2</div>
+  <div> 测试 git 原子提交3</div>
 </template>
 
 <style scoped>
